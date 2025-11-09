@@ -189,7 +189,6 @@ jupyter notebook
 - **Notebook naming**: `##_PHASE_description.ipynb`
 - **Data paths**: Use relative paths from project root
 - **Output format**: Save to appropriate `data/results/` or `outputs/figures/` subfolder
-- **Text indicators**: WARNING/OK/ERROR (no emojis)
 
 ---
 
@@ -282,7 +281,6 @@ All major analytical choices documented with:
 
 This is an individual academic project. For questions or feedback:
 - **Author**: Alberto Diaz Durana
-- **Advisor**: [Academic advisor name]
 
 ---
 
