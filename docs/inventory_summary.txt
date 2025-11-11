@@ -1,0 +1,29 @@
+
+DATA INVENTORY SUMMARY
+Generated: 2025-11-11 04:45
+
+FILE CHARACTERISTICS:
+- stores.csv: 54 stores
+- items.csv: 4100 items across 33 families
+- oil.csv: 1218 records (43 missing values)
+- holidays_events.csv: 350 holiday records
+- transactions.csv: 83,488 transaction records
+- train.csv: 125,497,040 rows, 6 columns
+
+PROJECT SCOPE (Guayas Region):
+- Stores selected: 11 of 54 (20.4%)
+- Store IDs: [24, 26, 27, 28, 29, 30, 32, 34, 35, 36, 51]
+- Top-3 families: ['GROCERY I', 'BEVERAGES', 'CLEANING']
+- Items covered: 2,393 of 4100 (58.4%)
+
+DATA QUALITY NOTES:
+- onpromotion missing: 21,657,651 rows (17.26%)
+- Decision: Fill with False (assume no promotion)
+- train.csv size: 479 MB (requires Dask)
+- Negative unit_sales: To be investigated in full dataset
+
+NEXT STEPS (Day 2):
+1. Filter train.csv to Guayas stores only
+2. Filter to top-3 families only
+3. Random sample 300K rows for development
+4. Begin EDA on filtered dataset

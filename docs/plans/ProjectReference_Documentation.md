@@ -183,6 +183,46 @@ Ask new questions: do promotions shift demand differently for perishables vs. no
 Invent custom features: flags for soccer-match days, cumulative month-to-date sales, or a “days-since-last-stock-out” counter.
 Treat the notebook like a sandbox—experiment, iterate, and document what you learn. The more angles you explore now, the stronger (and more defendable) your model will be later.
 
+Week 2: we will explore both classical time-series methods and machine learning approaches for forecasting. 
+By the end of this week, you will be able to:
+Implement classical time-series models like ARIMA and SARIMA.
+Apply machine learning models, particularly tree-based models like XGBoost, for time-series forecasting.
+Get familiar with deep learning approaches for time-series like Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks.
+Perform feature engineering and data preprocessing tailored for machine learning models.
+Understand the differences, benefits, and challenges of classical statistical methods versus machine learning approaches in time-series tasks.
+Tasks for the Second Week
+This week you learnt several methods of time-series modeling. Now it’s time to practice it!
+Do you remember that last week we fully prepared and explored the data from "Guayas" region? This week we’ll continue working with this preprocessed data, but now we are going to train an XGBoost model that will forecast the demand.
+Week 2 Goals
+Goal: put your new time-series skills into practice by building an XGBoost demand-forecast model (and optionally an LSTM) for the Guayas region dataset.
+Steps:
+Load the Data: Open the pre-processed CSV/Parquet from Week 1. Confirm it contains only records from Guayas.
+Keep the Top-3 Item Families: From last week’s EDA you should have found that GROCERY I, BEVERAGES and CLEANING are the 3 top families. Filter the dataframe so only those three families remain.
+Clamp the Calendar Window: For this sprint we model Jan 1 – Mar 31 2014 only.
+Here is the hint on how you can do it:
+Feature Engineering: 
+Lags / rolls and other interaction terms you think might help XGBoost.
+Optional bonus features:
+Store metadata: merge df_stores on store_nbr
+Item metadata: merge df_items on item_nbr
+Train / Test Split: Chronological split: e.g., train on Jan–Feb, test on March. No random shuffling!
+Separate Features (column names that we’ll use to make predictions) & Target (the one that we are going to predict) from the features. Do this for both training and testing portions of data.
+Fit the XGBoost Regressor
+Evaluate & Visualise: 
+Predict on X_test, compute MAE / RMSE.
+Plot y_test vs. y_pred to eyeball under/over-forecast days.
+Extra challenge!
+Consider building and trying an LSTM model and compare it against the XGBoost model
+Save the Notebook to Your GitHub Repository
+ 
+Deliverables:
+A clean notebook containing:
+Data prep, feature engineering, model training, plots, metrics.
+(Optional) LSTM section.
+Push the notebook to your GitHub repo by the end of the week.
+ 
+
+
 (Below: Lectures and reference)
 
 
@@ -207,7 +247,7 @@ to clipboard
 !pip install -q "dask[dataframe]"
 (the -q flag just keeps the pip output tidy)
  
-2. Read the CSV lazily
+1. Read the CSV lazily
 Now we can read the CSV file with Dask:
 Copied code
 to clipboard
