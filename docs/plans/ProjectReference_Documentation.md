@@ -1,4 +1,5 @@
 Case Study: Demand forecasting in retail
+
 Throughout this course we’ll work with a real retail dataset, step-by-step, to master time-series methods. Your end goal: build models that reliably predict how many units of each product will sell in the days and weeks ahead.
 Why retailers lean on time-series forecasting
 When you know how much of each item will sell tomorrow, you can plan everything else: how many units to order, what price tags to print, how many staff to schedule, and even which truck routes to book. Time-series analysis gives retailers that forward view by turning yesterday’s sales history into tomorrow’s demand estimate.
@@ -13,6 +14,7 @@ Plan smarter promotions & prices
 Discount only when demand is expected to sag, avoid needless markdowns when items will sell anyway.
 Streamline the supply chain
 Give warehouses and carriers a heads-up so goods arrive just in time, cutting storage costs.
+
 Quick example
 A grocery chain feeds two years of daily milk sales into a simple seasonal model. The forecast shows that demand jumps 30 % every Saturday and climbs steadily during summer. Knowing this, the buyer can:
 Boost milk orders for weekend delivery only.
@@ -25,7 +27,10 @@ Take-away: Retail sales rarely move at random; they follow patterns tied to time
 In this unit, we’ll be working with a real-world dataset: the Corporación Favorita Grocery Sales Forecasting dataset, originally shared on Kaggle: https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/data It contains daily sales records from dozens of grocery stores across Ecuador over several years.
 Our main goal will be to predict future sales of products in these stores. As you’ve just learned, accurate forecasts are essential for retailers: they help optimize stock levels, avoid running out of popular items, reduce waste, and make smarter decisions around pricing and promotions.
 
-From Kaggle: Corporación Favorita Grocery Sales Forecasting
+From Kaggle: 
+
+Corporación Favorita Grocery Sales Forecasting
+
 Can you accurately predict sales for a large grocery chain?
 Description
 Brick-and-mortar grocery stores are always in a delicate dance with purchasing and sales forecasting. Predict a little over, and grocers are stuck with overstocked, perishable goods. Guess a little under, and popular items quickly sell out, leaving money on the table and customers fuming.
@@ -100,7 +105,10 @@ holidays_events.csv.7z(1.9 kB)
 Download Data:
 kaggle competitions download -c favorita-grocery-sales-forecasting
 
-Course Project
+--------------------------------------------------------------------------
+
+## Course Project
+
 Project Overview — What You’ll Build Across the 4-Week Course
 For the next month you’ll work on one end-to-end forecasting project, adding a new layer each week. By the final session you will have produced:
 Exploratory Data Analysis (EDA)
@@ -117,7 +125,7 @@ Live Demo & Video Walk-through
 You’ll present the key findings, show the app, and share a short recording for review.
 Each week’s notebook builds on the previous one, so keep your code clean and commit often. By Week 4 you’ll have a portfolio-ready, fully reproducible demand-forecasting solution.
  
-Week 1 — Checklist & Roadmap
+### Week 1 — Checklist & Roadmap
 This week is all about setting up your workspace and trimming the raw data down to a manageable slice focused on the province Guayas. Follow the steps below and tick them off as you go.
  
 Spin-up your working notebook
@@ -131,22 +139,22 @@ Down-sample for speedy experiments. Randomly sample 300.000 rows to keep calcula
 Keep only the three biggest product families (measured by how many unique items each family contains).
 Trimming to the top families reduces the number of SKU-level time series you need to process this week.
 
-# Assuming that you have items.csv file read in into a variable called df_items
-# Identify the top-3 families by item count
+Assuming that you have items.csv file read in into a variable called df_items
+Identify the top-3 families by item count
 items_per_family = df_items['family'].value_counts().reset_index()
 items_per_family.columns = ['Family', 'Item Count']
 top_3_families = items_per_family.head(3)  # here is where we get the top-3 families
 
-# Next, we filter our the dataset
-# Assuming that train.csv file was read into a variable called df_train
-# Get the list of item_nbrs that belong to those families
+Next, we filter our the dataset
+Assuming that train.csv file was read into a variable called df_train
+Get the list of item_nbrs that belong to those families
 item_ids = df_items[df_items['family'].isin(top_3_families['Family'].unique())]['item_nbr'].unique()
 
-# Filter the training data
+Filter the training data
 df_train = df_train[df_train['item_nbr'].isin(item_ids)]
 
-# As a result, you'll have the df_train that only has items from the top 3 families
-# this is exactly what we need
+As a result, you'll have the df_train that only has items from the top 3 families
+this is exactly what we need
 
 Checkpoint your progress:
 Save the filtered df_train as a pickle (or Parquet) to Drive so you can reload without rerunning the chunk loop.
@@ -176,6 +184,7 @@ Remember: The cleaner and better-understood your data, the stronger your model w
  
 🚀
 Important – The Lectures Are Just Your Launchpad
+
 In class we covered the foundational steps—basic cleaning, calendar fills, and a handful of feature ideas—to show you how to handle time-series data.
 But real insight (and higher model accuracy) comes from pushing further:
 Cross-join more tables: try oil prices by store region, transaction counts, or weather data if you can find it.
@@ -183,7 +192,9 @@ Ask new questions: do promotions shift demand differently for perishables vs. no
 Invent custom features: flags for soccer-match days, cumulative month-to-date sales, or a “days-since-last-stock-out” counter.
 Treat the notebook like a sandbox—experiment, iterate, and document what you learn. The more angles you explore now, the stronger (and more defendable) your model will be later.
 
-Week 2: we will explore both classical time-series methods and machine learning approaches for forecasting. 
+### Week 2: classical time-series methods and machine learning approaches for forecasting**
+
+we will explore both classical time-series methods and machine learning approaches for forecasting. 
 By the end of this week, you will be able to:
 Implement classical time-series models like ARIMA and SARIMA.
 Apply machine learning models, particularly tree-based models like XGBoost, for time-series forecasting.
@@ -221,10 +232,51 @@ Data prep, feature engineering, model training, plots, metrics.
 (Optional) LSTM section.
 Push the notebook to your GitHub repo by the end of the week.
  
+### Week 3:**
+
+### Week 4:**
 
 
-(Below: Lectures and reference)
 
+## Below: Lectures and reference
+
+# -------------------------------------------------------------------------------
+
+Welcome to the Time Series Course!
+In this course, you'll learn how to analyze and forecast time series data - a crucial skill for industries that rely on trends, patterns, and future predictions. From stock prices and weather forecasting to sales trends and anomaly detection, time series modeling is at the heart of many real-world applications.
+notion image
+By the end of this course, you’ll have built your own time series forecasting model, refined it using best practices, and deployed it as a functional web service for real-world use. We know that it sounds exciting, right?
+What Makes Time Series Data Unique?
+We believe that is essential to say right away that time series data is different from we are already used to. It consists of observations collected over time, making it different from traditional datasets. Unlike standard machine learning problems, time series models need to account for trends, seasonality, and temporal dependencies.
+Check out the below video from our expert Anastasia Karavdina! She explains the essence of time series in simple terms 
+Besides Retail that Anastasia has mentioned in her intro speech, there are many other industries that depend on time series forecasting to make data-driven decisions. These are:
+Finance: Predicting stock trends and market movements.
+Energy: Estimating electricity consumption and optimizing supply.
+Healthcare: Monitoring patient vitals and predicting disease outbreaks.
+Cybersecurity: Detecting anomalies in network traffic and fraud prevention.
+Let’s now briefly go over what we are going to touch in this course!
+Course Overview
+Here’s what you’ll be learning and working on in each sprint:
+Sprint 1: Understanding Time Series Data
+Introduction to time series data and visualization techniques.
+Exploring key concepts like trends, seasonality, and stationarity.
+Setting up a real-world forecasting project and downloading data.
+Sharing your progress on GitHub.
+Sprint 2: Classical and ML-Based Approaches
+Learning classical models such as ARIMA and SARIMA.
+Exploring machine learning and deep learning models like XGBoost, RNNs, and LSTMs.
+Comparing different forecasting techniques and evaluating their performance.
+Sprint 3: Improving Model Performance
+Understanding best practices for optimizing time series models.
+Exploring hyperparameter tuning techniques.
+Conducting scientific machine learning experiments using MLflow.
+Sprint 4: Deploying a Time Series Model
+Turning your model into a web service that businesses can use.
+Learning to work with Streamlit for interactive dashboards.
+Deploying your time series forecasting model as a Python-based web service.
+ 
+Moreover, throughout the course, you'll work on a hands-on project that grows with each sprint. You'll experiment with different forecasting techniques, refine your model using best practices, and finally deploy it as a functional web service. By the end, you’ll not only understand time series modeling but also have a tangible project to showcase in your portfolio.
+Let’s get started!
 
 
 load the following CSV files into memory:
@@ -1514,3 +1566,1372 @@ Required for some models like ARIMA
 Non-stationary
  
 
+# --------------------------------------------------------------------------------
+
+# Week 2: Time Series Modelling
+
+In this week lessons, we will explore both classical time-series methods and machine learning approaches for forecasting. 
+By the end of this week, you will be able to:
+Implement classical time-series models like ARIMA and SARIMA.
+Apply machine learning models, particularly tree-based models like XGBoost, for time-series forecasting.
+Get familiar with deep learning approaches for time-series like Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks.
+Perform feature engineering and data preprocessing tailored for machine learning models.
+Understand the differences, benefits, and challenges of classical statistical methods versus machine learning approaches in time-series tasks.
+
+# Preparing our data + DARTS
+
+Before we start learning about building models, we need a clean dataset ready to work with. We’ll demonstrate classical ARIMA/SARIMA models using Darts, a high-level Python library for time-series forecasting. Once again, we will use the sales time-series data from  the "Corporación Favorita Grocery Sales Forecasting" dataset.
+Step 0: Installing Darts
+We will illustrate how to use classical time-series methods like ARIMA for forecasting using the DARTS library.
+☝
+DARTS is a Python library specifically designed for time-series forecasting. It offers a wide variety of models, including classical models (ARIMA, Exponential Smoothing), machine learning models, and even deep learning models. The main advantage of DARTS is that it simplifies time-series model training and evaluation.
+ 
+Let’s start a new Notebook in Colab and install DARTS there:
+Copied code
+to clipboard
+1
+!pip install darts
+Step 1: Loading a Single Store–Item Series
+Rather than juggling millions of rows, we’ll extract one product in one store and truncate everything after March 31, 2014. 
+Copy over your file reading and chunk-loading helpers from Week 1, and then add a filter on store_nbr, item_nbr, and date < '2014-04-01'. The result is a tidy DataFrame with just daily sales for our chosen series.
+Copied code
+to clipboard
+12345678910
+# We need to add this variables
+# Let's filter the data for one store and one item to keep it simple
+store_ids = [44]
+item_ids = [1047679]
+
+#Select data before April'14
+max_date = '2014-04-01'
+
+# And change the filter for chunk_filtered to include the new conditionals
+chunk_filtered = chunk[(chunk['store_nbr'].isin(store_ids)) & (chunk['item_nbr'].isin(item_ids)) & (chunk['date']<max_date)]
+ 
+This is how the updated week 1 code we will use looks like
+Copied code
+to clipboard
+123456789101112131415161718192021222324252627282930313233343536373839
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import requests
+import io
+import gdown
+
+# Build the download URL from a file ID
+def make_drive_url(file_id):
+    return f"https://drive.google.com/uc?id={file_id}"
+
+Copied code
+to clipboard
+1234567891011121314151617181920212223242526272829303132
+# Download the train.csv file using gdown
+train_url = make_drive_url(file_ids["train"])
+gdown.download(train_url, "train.csv", quiet=False)
+
+# Load stores and get Pichincha store IDs
+stores_url = make_drive_url(file_ids["stores"])
+df_stores = pd.read_csv(io.StringIO(requests.get(stores_url).text))
+store_ids = df_stores[df_stores['state'] == 'Pichincha']['store_nbr'].unique()
+
+# NEW!
+
+ 
+ 
+Step 2: Prepare & Convert to TimeSeries
+Next, we turn that DataFrame into a true time series:
+Convert date to datetime and set it as the index.
+Aggregate by date (summing all unit sales for that day).
+Reindex to a complete daily calendar, filling any gaps with zero.
+Finally, wrap it in Darts’ TimeSeries object so all the library’s modeling and backtesting tools work out of the box.
+ 
+Copied code
+to clipboard
+1234567891011121314
+
+df_filtered['date'] = pd.to_datetime(df_filtered['date'])
+
+# Group by date and aggregate sales for each day
+df_filtered = df_filtered.groupby('date').sum()['unit_sales'].reset_index()
+
+# Setting an index after the aggregation made
+df_filtered.set_index('date', inplace=True)
+
+# Fill missing dates with zero sales (since some dates may have no sales)
+
+ 
+Once that’s done, visualize your series with series.plot() to confirm a clean line of daily sales.
+Copied code
+to clipboard
+123
+# Visualize the filtered sales data
+plt.figure(figsize=(21, 7))  # Adjust the figure size (width, height)
+series.plot()
+Here is how the time-series of sales for this product-store is looking like:
+notion image
+💡
+Think First!
+Before reading our interpretation, take a moment to reflect on the chart yourself:
+What do you notice about the sales volume? Is it consistent, volatile, or trending?
+Do the spikes follow any visible pattern?
+What kinds of features might help the model capture this behavior?
+ 
+Our Analysis
+Key Observations
+Sales are consistently high: The product sells every day, typically between 300 and 800 units, with a few spikes reaching over 1000. This makes it a high-volume item.
+No missing or zero values: We see activity on every day, which is useful when training a model that learns from historical behavior.
+Frequent, sharp fluctuations: The series is noisy — it goes up and down regularly — but mostly within a predictable range.
+Occasional large peaks: Some spikes rise sharply above the usual sales range, which might correspond to promotions, holidays, or special events.
+What This Suggests for Forecasting
+The model will benefit from lag features (e.g., sales_lag_1, rolling_mean_7) to learn local dynamics.
+You may want to include calendar features such as day_of_week, is_weekend, or month to help capture recurring patterns.
+To better handle volatility, applying a rolling average or using a log transformation might improve model stability.
+To predict the occasional spikes more accurately, adding external signals like promotions (if available) would be valuable.
+Step 3: Splitting the Data into Training and Testing Sets
+Before fitting models, we need honest out-of-sample testing. With Darts it’s trivial:
+Copied code
+to clipboard
+12
+# Split the data (80% training, 20% testing)
+train, test = series.split_after(0.8)
+This reserves the final 20 % of your data as a test set. Everything up to that point becomes your training series—ready for differencing, ACF/PACF diagnostics, and ARIMA fitting in the next lecture.
+
+
+# Classical Time-Series Methods: ARIMA & parameter d
+
+Let’s begin with what we call classical methods and the first method that we want to introduce is ARIMA! 
+ARIMA stands for AutoRegressive Integrated Moving Average. It is a simple model used to understand and predict time-series data that doesn’t have a strong seasonal pattern. 
+How Does ARIMA Work?
+Imagine you’re trying to forecast the daily sales in a grocery store. If you’ve seen the sales for the past week, ARIMA can help predict the sales for tomorrow by:
+Looking at how past days’ sales have behaved: Autoregression (AR).
+Correcting for any trends: Integration (I).
+Learning from the errors made in previous predictions: Moving Average (MA).
+☝
+So, ARIMA tries to use the past values of the data (AR) and past prediction errors (MA) to make accurate forecasts, while adjusting for trends in the data (I).
+ 
+In order to use the ARIMA model, we need to define 3 parameters the model will use: the p, d and q values. Each related to one of the steps above. 
+Copied code
+to clipboard
+1234
+from darts.models import ARIMA
+
+# Initialize ARIMA model with (p, d, q) parameters
+arima_model = ARIMA(p, d, q)  
+ 
+Let’s dive deeper into what they mean, and how to calculate them, so we can then initialize an ARIMA model, fit it to our train data and use it to predict on our test data.
+
+# ARIMA Integrated: I (d)
+
+What is the I in ARIMA and the parameter “d”
+Sometimes data isn’t "stationary," meaning it has a trend that increases or decreases over time (like sales that grow over time). 
+Reminder, this is how stationary and non-stationary data looks like.
+The Integrated part helps by removing these trends to make the data easier to predict. It does this by differencing—subtracting the previous value from the current value to smooth out the trend.
+ 
+Let’s get the idea behind differencing: look at a time series before differencing, and after differencing.
+notion image
+notion image
+We can see visually that differencing removed the trend of the series. 
+☝🏼
+The data might have a trend, so we difference it d times to make it stationary (flat mean). 
+
+# Choosing “d” — How many differences: Step 1
+The “d” in ARIMA(p,d,q) tells us how many times to difference the series to remove a trend and achieve stationarity (constant mean & variance).
+Step-by-step guide:
+Step 1. Start with no differencing (d = 0)
+Visual check: plot your raw series
+Does a gentle upward or downward drift hide underneath the spikes?
+Copied code
+ to clipboard
+1
+train.plot(title="Raw unit_sales (d=0)")
+notion image
+💡
+Think First!
+What patterns or “drift” do you notice over time?
+Does it look like the mean level is roughly constant, or does it trend up/down?
+Based on your visual impression, would you call this series “stationary”?
+Our analysis
+1. Visual Patterns & Drift
+The series shows strong short-term fluctuations throughout the entire period.
+There is no clear long-term upward or downward trend, but:
+The amplitude (spread) of the noise seems to change slightly across the year.
+Early in the series (Jan–Mar), we observe several extreme spikes—both highs and lows—which are less prominent later on.
+There might be mild seasonality or drift, but it's not strongly directional.
+2. Mean Level: Constant or Changing?
+The mean level appears fairly stable around 500–600 units/day.
+There is no obvious trend of increasing or decreasing average sales over time.
+Minor changes in variability aside, the central level holds steady—suggesting mean stationarity.
+3. Stationarity Assessment (Visual)
+From a visual standpoint, this series is likely weakly stationary, because:
+The mean is roughly constant
+The variance is relatively consistent over time (though a bit noisier early on)
+There's no strong trend or seasonality visible
+However, there are occasional outliers or structural breaks (e.g., sudden dips to zero) that might affect statistical stationarity tests like the ADF test.
+Conclusion
+This series appears visually stationary, or at least close enough for many forecasting models to work well without differencing (d=0).
+ 
+ 
+Visual Check: rolling mean
+Let’s smooth out the day-to-day spikes with a 30-day rolling average so we can clearly see the underlying drift. By averaging over a full month, the noisy zero-and-spike pattern flattens out, revealing whether there really is a gradual upward (or downward) trend that we need to difference for our ARIMA model.
+Copied code
+ to clipboard
+123456789101112131415161718192021
+
+import matplotlib.pyplot as plt
+
+
+# Compute a 30-day rolling average to smooth out the daily noise
+rolling_trend = df_filtered['unit_sales'].rolling(window=30, center=True).mean()
+
+plt.figure(figsize=(14, 5))
+# Plot the raw daily sales in light gray
+plt.plot(df_filtered.index, df_filtered['unit_sales'],
+
+notion image
+💡
+Think First!
+What patterns or “drift” do you notice over time?
+Does it look like the mean level is roughly constant, or does it trend up/down?
+Based on your visual impression, would you call this series “stationary”?
+Our analysis
+Drift: There's a downward trend at the beginning of 2013, but the series stabilizes after March.
+Mean level: Not constant overall — it drops early, then stays around 430–480 units/day.
+Stationarity: The full series is not perfectly stationary, but it's mostly stable after the initial decline. It may be treated as near-stationary for many forecasting models.
+ 
+Stat test
+Run an ADF test. 
+Copied code
+ to clipboard
+12345678910
+from statsmodels.tsa.stattools import adfuller
+
+# adfuller() doesn’t know how to handle a Darts TimeSeries object directly
+# a) extract the raw values as a NumPy array
+#     `train.values()` returns an array of shape (n_timesteps, n_dims)
+arr = train.values().flatten()   # flatten to 1-d if it's uni-variate
+
+# b) call adfuller on that array
+stat, p = adfuller(arr)
+print(f"ADF p-value: {p:.2e}")
+
+p-value:       0.00046708453453955947
+Decision
+If p ≥ 0.05 or you see a trend that matters, move to d=1.
+☝🏼
+What this tells us:
+A low ADF p-value (<0.05) technically tells you “reject the unit-root null → series is stationary”. Since our p-value is very small (≪ 0.05), you can reject the null hypothesis with high confidence, and you don’t need to difference the series (d=0) for models like ARIMA.
+But even though you got a tiny p-value at d=0, we will go ahead and try d=1 to show you how is done, in case you get a series that needs to be differenced. 
+
+# Choosing “d” — Step 2
+☝🏼
+Remember: The “d” in ARIMA(p,d,q) tells us how many times to difference the series to remove a trend and achieve stationarity (constant mean & variance).
+Step 2. If not stationary, try one difference (d = 1)
+Copied code
+to clipboard
+12
+# do the 1st difference, this would be our new differenced train data
+diff1 = np.diff(arr,1)
+Visual: 
+Does diff1 now hover around a constant mean (no obvious drift)?
+Copied code
+ to clipboard
+1
+pd.Series(diff1).plot(title="unit_sales (d=1)") 
+notion image
+ADF test again
+If p < 0.05 and the mean now hovers around zero, accept d = 1.
+Copied code
+ to clipboard
+123
+# ADF on the differenced
+result = adfuller(diff1)
+print("1st-difference ADF p-value:", result[1])
+1st-difference ADF p-value: 2.5893585918459893e-12
+☝🏼
+What this tells us:
+Visual: the series now fluctuates around a roughly constant center (no obvious trend).
+ADF p-value stays below 0.05, confirming stationarity after one differencing.
+ 
+📌
+Only if needed, try two differences (d = 2)
+If still non-stationary, and p-value > 0.05, you may accept d = 2—but this is rare.
+Beware: over-differencing can introduce extra noise and hurt your forecast.
+ 
+💡
+Exercise
+For the same store, but different item (103665), follow the same steps and decide on d.
+
+# Choosing “d” - Summary
+📌
+Summary: Choosing “d” (Number of Differences) for ARIMA(p, d, q)
+Understand the goal
+Differencing removes trends so that your series has a roughly constant mean (stationarity), which ARIMA assumes.
+Start with no differencing (d = 0)
+Visual check: Plot the raw series. Does it wander up or down over time (drift), or do its spikes and troughs hover around the same level? If unsure, plot the rolling mean or average.
+Statistical check: Run an Augmented Dickey–Fuller (ADF) test on the training data. If p-value < 0.05 and the plot looks flat, you can stop here (d = 0).
+If still non-stationary, apply one difference (d = 1)
+Compute the first difference:
+Copied code
+ to clipboard
+123
+arr = train_series.values().flatten()           # raw values
+diff1 = np.diff(arr, n=1)                       # 1st difference
+
+Visual check: Wrap in a pd.Series(diff1) and plot—does it now oscillate around zero with no clear drift?
+Statistical check: ADF on diff1. If p-value < 0.05 and the plot looks stationary, accept d = 1.
+(Rare) Try two differences (d = 2)
+Only if d = 1 still leaves visible drift (p-value ≥ 0.05), difference again: diff2 = np.diff(arr, n=2).
+Beware: over-differencing can introduce excess noise and degrade forecasts.
+Balance visual & statistical evidence
+A low ADF p-value alone doesn’t guarantee stationarity if your series still shows obvious trends or changing variance.
+Always pair the test result with a quick plot. If business decisions hinge on drift—even a “stationary” p-value may mislead you.
+Lock in “d”
+Use the smallest d that yields a series with constant mean/variance (typically 0 or 1).
+Document your choice before tuning the autoregressive (p) and moving-average (q) orders.
+
+# ARIMA & parameter p
+
+# ARIMA AutoRegressive part: AR (p)
+
+This part of ARIMA says that we can predict the future value of a time series based on its past values. 
+For example, if you know the sales in the last few months, you can use that information to predict future sales. Think of it like: "If sales were high last month, they might be high this month too."
+☝🏼
+The “p” in ARIMA(p, d, q) sets how many past observations the model uses to predict today’s value. p is the number of past days (lags) whose values you’re feeding back into the model. 
+If you choose p = 1, you’re saying “today’s value is related to yesterday’s value.”
+If p = 7, you’re including the last 7 days: today is modeled as a weighted sum of sales 1 day ago, 2 days ago, … up to 7 days ago (plus the noise term).
+So p controls how many prior observations your AR component “remembers”. And you need to choose p! Let’s see below how to do so.
+
+
+# Choosing “p” — How Many Past Values to Include (AR Order)
+
+Goal → Find the smallest number of lags that still captures the useful “memory” in the data.
+Step 0. Difference First (if needed)
+Make the series roughly flat (stationary) so the PACF isn’t confused by trends/seasonality. 
+☝🏼
+We did this when finding d. The differenced series is the one we will use in the next steps. 
+Step 1. Plot the Partial Autocorrelation Function (PACF)
+Partial Autocorrelation Function (PACF) tells you how much today’s value is directly linked to one specific previous day —after removing the influence of all the days in between.
+Think of it as asking, “Does Day N really matter on its own, or is it just echoing what happened on Day N-1, N-2, …?”
+ 
+Explaining the ACF and PACF in Detail
+ACF vs. PACF
+ACF (Autocorrelation Function) measures all correlation—including indirect, chain-reaction effects. We will use ACF in the next lecture, when calculating q for ARIMA(p,d,q).
+PACF isolates the direct correlation between today and a chosen lag.
+Example: If Day-3 affects Day-2 and Day-2 affects Today, ACF at lag 3 looks large even if Day-3 has no unique influence. PACF removes that redundancy.
+
+How to Interpret the PACF Plot
+Bars: strength of “direct” link between today and that lag, where:
+Y-axis: Strength of partial autocorrelation (from –1 to +1)
+X-axis: Lag number (how many time steps back)
+Dots: The partial correlation at each lag (e.g., lag 1, lag 2, ...)
+Shaded area: Confidence interval (usually 95%). If a bar is outside the shaded region, it's statistically significant.
+First bar inside the band: where useful memory stops.
+What We See in Our Plot
+Lag 0 always shows a correlation of 1.0, since a series is perfectly correlated with itself. 
+Starting from lag 1, we see a strong positive correlation, which is expected in many time series — recent values are often highly predictive of the next one.
+After lag 1, several early lags (up to lag 6) show significant negative partial autocorrelations (outside the gray confidence interval).
+Most lags after 10 fall within the confidence bounds, indicating that their partial correlations are not statistically significant.
+Step 2. Look for the “cut-off”
+Find where the bars dive into the grey band and stay there.
+That first “inside” lag is your cut-off.
+Set p to that cut-off (or a bit lower).
+If only lag 1 is big → p = 1
+If lags 1–3 stick out then flatten → p ≈ 3 (but you can try p=1-3 and choose the best)
+If lags 1–5 are above the band → p ≈ 5 (but you can try p=1-5 and choose the best)
+Our example: 
+This PACF plot suggests that an AR model with lag 1 or up to 6 lags might be appropriate. The cutoff at lag 1 (or decay through ~6) often signals how many past observations are useful predictors.
+If you’re using an ARIMA model, this can guide you to try AR(p) where p = 1 to 6, and evaluate performance.
+Step 3. Let the Data Decide
+Fit candidate models (ARIMA(p, d, q) with p from Step 3).
+Compare AIC/BIC or validation error (we will learn about them soon).
+Choose the lowest-error model.
+ 
+💡
+Exercise
+For the same store, but different item (103665), follow the same steps and decide on p.
+
+# Choosing “p” — Summary
+📝 Quick Cheat-Sheet 
+Reading a PACF Plot
+Plot Feature
+Interpretation
+Tall bar outside the grey band
+Significant, direct effect at that lag
+Bars drop inside the band and stay there
+Useful memory ends → pick p at that cut-off
+First bar only
+Classic AR(1) process
+Several bars then sharp drop
+AR(p) where p = last significant lag
+Choosing the AR Order p
+Make the series stationary (difference if needed).
+Plot PACF (e.g., plot_pacf(series, lags=30)).
+Find the last bar that sticks out → that lag = candidate p.
+Validate with AIC/BIC or cross-validation.
+ 
+Question
+Quick Answer
+Why not pick a huge p?
+Adds noise & overfits; bigger isn’t better.
+What if I see no bars above the band?
+Differencing may have over-flattened; try smaller d or accept p = 0.
+What if bars never drop?
+Probably still non-stationary—re-examine differencing/seasonality.
+ 
+
+ # ARIMA & parameter q
+ # ARIMA Moving Average: MA (q)
+Moving-Average (MA) part of ARIMA  says today’s value is influenced by past forecast errors (the difference between what we predicted and what actually happened). 
+Intuition:
+If you keep track of the last few mistakes you made while driving, you can correct today’s steering. q is how many mistakes you keep in mind.
+☝🏼
+The “q” in ARIMA(p, d, q) sets how many past forecast errors we let the model “remember.” 
+ARIMA Part
+Memory Source
+Tool to Pick Order
+AR (p)
+Past values
+PACF (last lecture)
+MA (q)
+Past errors
+ACF (this lecture)
+
+
+# Choosing “q” — How Many Past Errors to Smooth (MA Order)
+Here is a step by step guide on how to choose q (how many past errors to smooth). 
+Step 0. Difference First (if needed)
+Make the series roughly flat (stationary) so the ACF isn’t confused by trends/seasonality. 
+☝🏼
+We did this when finding d. The differenced series is the one we will use in the next steps. 
+Step 1. Plot the Autocorrelation Function (ACF)
+Autocorrelation Function (ACF) measures how today’s value is related to all previous days—directly and indirectly.
+Think of dropping a stone in water: the first ripple hits the shore, then triggers the next, and so on. ACF sees the entire chain of ripples, whereas PACF (from the last lecture) isolates the first direct splash at each distance.
+Moving-Average (MA) component adjusts today’s forecast using past forecast errors. The ACF plot shows how long those error effects linger.
+Copied code
+to clipboard
+123
+from statsmodels.graphics.tsaplots import plot_acf
+plot_acf(diffed_series, lags=30) # lags=30 = how far back we look
+plt.show()
+notion image
+Step 2. Read the plot and choose q
+Locate the first lag after which all ACF bars fall inside the significance band. That lag is your q.
+ACF pattern (after lag 0)
+Likely implication
+Suggested MA specification
+Only lag 1 bar is significant
+Short-memory shock; no seasonality
+q = 1
+Significant bars up to lag k, then none
+Finite MA process of order k
+q = k
+Regular spikes at lags m, 2m, 3m, …
+Seasonality of period m
+You will need a different model than ARIMA, such as SARIMA 
+Slow exponential decay (never drops inside band)
+Trend or non-stationarity; series may need differencing or is AR-dominated
+Check stationarity, examine PACF for AR terms
+Alternating sign (positive, negative, …) that decays
+Possible AR term with sign flipping
+Inspect PACF; MA alone may not sufficent
+Remember: Real data aren’t always textbook—use the plot as a guide, not an absolute.
+ 
+Before interpreting our plot, let’s look at some examples:
+Example: ACF of a simulated series
+notion image
+Above is a worked example ACF plot.
+Lag
+What you see
+What it means
+1
+tall bar well outside the band
+strong, significant autocorrelation
+2
+smaller bar, still outside
+still significant but weaker
+3
+bar just grazing the band
+barely significant (often treated as noise)
+≥ 4
+bars live inside the band
+no meaningful autocorrelation left
+Interpretation
+Autocorrelation “dies” right after lag 2.
+The MA component only needs the last two error terms → start with q = 2 in your ARIMA model and verify with AIC/BIC or a validation set.
+ 
+Example: this one is taken from another store-product combination from our dataset.
+notion image
+Interpreting our ACF Plot
+Observation
+What it means
+Lag 0: bar = 1 (always)
+Baseline autocorrelation of a series with itself.
+Lag 1 bar: large and outside the grey band (significant)
+Yesterday’s forecast error still has a strong, direct impact on today’s value.
+Lags 2 – 30 bars: sit inside the grey band (insignificant)
+Correlation from earlier errors has effectively “died out.”
+Implication for q
+The cut-off occurs right after lag 1.
+Therefore the moving-average component only needs the last one error term.
+Recommended starting point: MA order q = 1 → try ARIMA(p, d, 1) (with the p you chose from the PACF).
+Rule of thumb: when the ACF shows a single significant spike at lag 1 and nothing beyond, an MA(1) term is usually sufficient. Test ARIMA models with q = 1 (and perhaps q = 0 or 2 as benchmarks) and pick the best via AIC/BIC or validation error.
+Interpreting our ACF Plot
+Feature you see
+What it means
+Lag 1 bar is negative and outside the confidence band
+Daily changes tend to reverse: a high day is often followed by a lower day (short-term “bounce-back” behaviour).
+Strong positive spikes at lags ≈ 7, 14, 21, 28
+Clear 7-day seasonality (weekly cycle). Each week’s sales pattern resembles the previous week.
+Alternating negative bars between those weekly spikes
+Typical of a seasonal pattern: values half a cycle away (≈ 3–4 days) move in the opposite direction.
+No single sharp cut-off after a few lags
+The series is not a simple MA(q) process; seasonality dominates the autocorrelation structure.
+Non-seasonal MA order (q) – There isn’t a sharp drop-off after lag 1, but a small MA term can still mop up the day-to-day noise.  Begin with q = 0, 1 and let AIC/BIC pick the winner.
+📌
+That said, the regular spikes every seven lags clearly point to seasonality. A plain ARIMA—designed for series without pronounced seasonal cycles—will struggle here. Instead, move to a SARIMA specification (next model we will learn after ARIMA) so you can add a seasonal MA component (Q) and the appropriate period (m = 7) to capture the weekly pattern.
+ 
+💡
+Exercise
+For the same store, but different item (103665), follow the same steps and decide on 1.
+ 
+
+ # Choosing “q” - Summary
+Quick Recap
+Stationary series → plot ACF.
+Look for cut-off where bars fall into the grey band.
+Set q to the last significant lag.
+Validate with information criteria or a hold-out set.
+Key takeaway: ACF answers “How many past mistakes matter?”
+Pick that many for q, test the model, and let performance metrics confirm your choice.
+Common Pitfalls & Fixes
+Pitfall
+Symptom
+Fix
+Over-differencing
+ACF shows no significant bars at all
+Try smaller d
+Under-differencing
+ACF decays very slowly
+Take an additional difference
+Seasonality present
+Spikes every s lags (e.g., 7, 14)
+Consider seasonal MA (Q) with the next model we will learn, SARIMA or seasonal differencing
+ 
+# ARIMA model training
+So far we’ve learned what p, d, and q mean and how to make an educated first guess.
+Now we’ll let the data confirm (or veto) those guesses.
+We will:
+Fit candidate models ARIMA(p, d, q).
+We can choose d=0 as ADF p-value ≈ 0.0005 → already (weakly) stationary.
+Loop p from 1 to 6, up to the last significant PACF spike (lag 6) 
+ Try q = 1 or 2 (our ACF advice), even though we’ve seen we will have issues with ARIMA not working well with seasonality.
+Compare AIC/BIC or validation error. 
+Metric
+What it tells us
+Rule
+AIC / BIC
+Penalise bad fit and unnecessary complexity. For comparing models.
+Lower = better
+Validation error (e.g., MAE, RMSE)
+How well the model predicts unseen data
+Lower = better
+Choose the lowest-error model.
+Step 1: Fit candidate models ARIMA(p, d, q) & predict
+We will start with ARIMA(p = 6, d = 0, q = 1). 
+Copied code
+to clipboard
+1234567891011121314151617
+# Import ARIMA from darts 
+from darts.models import ARIMA
+
+# Initialize ARIMA model with (p, d, q) parameters
+arima_model = ARIMA(p=6, d=0, q=1)  # ARIMA(p, d, q)
+
+# Fit the ARIMA model on the training data
+arima_model.fit(train)
+
+# Forecast the next values (the same length as the test set)
+
+The ARIMA model is first fitted on the training set and then asked to predict the entire test period. We overlay those red forecasts on top of the actual blue sales to see how well they line up.
+notion image
+Aspect
+What we see
+Interpretation
+Fit on first few test points
+The red line rises with the first three blue points, then flattens
+ARIMA is using recent lags, so it reacts at the start of the forecast window, but its memory fades quickly
+Remainder of test window
+Forecast drifts to a nearly flat band (≈ 450–500 units) while the blue line whipsaws between 150 and 1200
+Model has reverted to predicting the long-run mean, failing to track the volatility and the big weekly peaks
+Why ARIMA struggles here
+Weekly seasonality ignored
+Blue spikes recur almost every 7 days, but the red line is oblivious—our model has no seasonal MA/AR terms.
+Short-memory mean reversion
+The ARIMA order chosen (non-seasonal) puts most weight on very recent observations, then decays to the mean.
+Good for low-noise data, poor for sudden bursts.
+No exogenous signals
+Promotions, holidays, or day-of-week dummies would help flag the big jumps.
+ 
+ 
+
+# ARIMA model evaluation
+After fitting our model, lets continue with the evaluation.
+Step 2: Evaluate the Candidate Models with Metrics
+Now that you’ve fit several ARIMA (p, d, q) models, we need a fair, data-driven way to decide which one is truly best (we fitted one in this lecture, you should have fitted as exercise the others).
+We’ll use two complementary perspectives:
+Metric
+Why it matters
+AIC / BIC
+Rewards good fit, penalises extra parameters. Lowest wins. Used to compare between models, is a relative metric. 
+MAE / RMSE on the test set
+Tells us how well the model generalises to unseen data. Lowest wins.
+Rule of thumb – If both AIC/BIC and validation error point to the same (p, d, q), you’ve found a strong candidate.
+ 
+Lets see how we evaluate a single model:
+Copied code
+to clipboard
+12345
+Evaluate one model
+aic = arima_model.model.aic
+mae   = mean_absolute_error(test.values().flatten() , arima_forecast.values().flatten())
+print("AIC: ",aic)
+print("MAE: ",mae)
+AIC:  4630.971745881057
+MAE:  142.83226591816378
+MAE ≈ 143
+Typical daily sales in the test set are 300-800, so error is roughly 20-40 % of the day’s value
+Acceptable for low-variance items, but too high for a high-volume, spiky series
+AIC ≈ 4631
+High absolute AIC is normal for long series; we’d need to compare against other SARIMA specs
+Works only as a relative measure. Good to compare with other models, such as the ones on the Try it yourself! below.
+💡
+Try it yourself! 
+Create a function that tries all combinations of q=0,1 and p=1..6, trains an ARIMA model for each. 
+What looks like your best model and why?
+ 
+Solution
+Copied code
+ to clipboard
+123456789101112131415161718192021222324252627282930
+def simple_arima_search(train_ts, test_ts, d=0):
+    best_aic  = float('inf')
+    best_mae  = float('inf')
+    best_order = None
+    best_model = None
+    results = []
+
+    for p in range(1, 7):          # p = 1 … 6
+        for q in (0, 1):           # q = 0 or 1
+            model = ARIMA(p=p, d=d, q=q)
+
+notion image
+AIC drops steadily as we add AR lags (or p), indicating the series is AR-dominated; moving from p = 1 to p = 6 cuts AIC by more than 100.  The lowest AIC is achieved by ARIMA(6, 0, 1), making it the statistically preferred model, although its MAE (≈ 142.8) is virtually identical to ARIMA(6, 0, 0).  In short, six AR terms capture nearly all the structure, and the extra MA(1) (or q) delivers a small AIC gain without meaningful MAE improvement.
+💡
+Exercise:
+For the same store, but different item (103665), follow the same steps and choose the best model. Interpret your results.
+What You Should Remember
+Always evaluate on held-out data—accuracy on the training set alone can be misleading.
+Use both AIC/BIC and validation error; they tell complementary stories.
+Smallest, simplest model that wins on data = best first choice.
+Plot the residual ACF next—residuals should look like white noise; otherwise refine the model.
+
+# Summary & ARIMA Workflow
+☝🏼
+ARIMA is your go-to tool when you want a compact, transparent, and statistically rigorous forecasting model—before you dive into heavier machine-learning approaches.
+ARIMA, by design, handles trend and short-term autocorrelation but assumes your series has no built-in seasonality—there’s no term in the definition above that explicitly models repeating cycles. 
+If your data shows strong weekly or annual patterns, you’ll want to upgrade to SARIMA, which adds a seasonal ARIMA component to capture those regular cycles.
+
+There are three parameters—p, d, and q—that tell ARIMA how many lags, differences, and error terms to include:
+Autoregression (AR): it looks back at the last p days of sales to detect patterns.
+Integration (I): it removes smooth up-or-down trends by differencing the data d times.
+Moving Average (MA): it learns from the last q days of forecast errors to correct its predictions.
+Workflow
+Plot your raw series
+See if there’s an obvious trend or changing variance. i.e. Visualise the raw series or a moving average or variance for trend & seasonality.
+Test stationarity (e.g., ADF test).
+Difference (d times) until the series looks flat and passes stationarity test, i.e. ADF (p-value < 0.05).
+Plot ACF and PACF on the differenced series:
+PACF cut-off → suggests p.
+ACF cut-off → suggests q.
+Fit ARIMA(p, d, q) and check residuals are “white noise.”
+Copied code
+to clipboard
+1234
+
+from statsmodels.tsa.arima.model import ARIMA
+model = ARIMA(series, order=(p, d, q))
+results = model.fit()
+ 
+Forecast
+Copied code
+to clipboard
+12
+# Forecast the next values (the same length as the test set)
+arima_forecast = arima_model.predict(len(test))
+ 
+Evaluate
+We showed how to calculate and interpret AIC and MAE. In the next sprint, we will dive into details of other metrics.
+
+# Classical Time-Series Methods: SARIMA
+Why “ARIMA with an S” is the next logical step
+In the previous lessons you learned how plain ARIMA models capture a series’ short-term “memory.” But many real-world datasets repeat a pattern every week, every month, or every quarter. Think of supermarket sales spiking every Saturday, energy demand rising every winter, or airline passengers peaking every summer. Traditional ARIMA can’t model that repeating boost unless you manually inject extra lags—which gets messy fast.
+Seasonal ARIMA (SARIMA) solves this by adding a second, parallel ARIMA layer that only “wakes up” at the seasonal interval s. 
+What SARIMA Adds
+☝🏼
+SARIMA stands for Seasonal AutoRegressive Integrated Moving Average. It is an extension of ARIMA that adds the ability to model seasonality. 
+Seasonality refers to patterns that repeat at regular intervals, like higher sales during holidays or weekends. So, while ARIMA is great for general trends, SARIMA is better when you have seasonal patterns in your data.
+Copied code
+to clipboard
+123
+SARIMA(p, d, q) × (P, D, Q)s
+|___________|   |___________|___|
+non-seasonal     seasonal   season length
+SARIMA includes all the same parts as ARIMA (AR, I, MA), but it adds extra terms to capture seasonality. Here’s how SARIMA works:
+Seasonal AutoRegressive (SAR)
+Just like AR looks at past values, SAR looks at the past seasonal values. If sales always spike in December, the SAR term will recognize this and help predict a similar pattern.
+Seasonal Differencing (SI)
+This is like regular differencing but applied to the seasonal aspect of the data. If the data has a seasonal trend, this term will help remove it.
+Seasonal Moving Average (SMA)
+Similar to MA, SMA looks at past seasonal errors to improve future predictions. For example, if sales predictions were off during last year’s December holiday season, this term will adjust future forecasts to avoid similar mistakes.
+Seasonal Period (m)
+This is the length of the seasonal cycle. For monthly sales data with a yearly pattern, the seasonal period is 12 (because there are 12 months in a year).
+ 
+☝
+So, SARIMA is like ARIMA, but it’s designed for data that repeats in cycles, like weekly or yearly sales patterns.
+Symbol
+Meaning (analogy)
+P
+Seasonal AR terms → “How many seasonal yesterdays (t–s, t–2s …) affect today?”
+D
+Seasonal differencing → remove repeating level shifts (series.diff(s))
+Q
+Seasonal MA terms → “How many seasonal error shocks linger?”
+s
+Period of seasonality (7 for weekly pattern in daily data, 12 for monthly pattern in yearly data)
+
+# Choosing Seasonal Orders for SARIMA: Step 1
+
+Today’s lecture walks you through picking the right seasonal orders (P, D, Q) and combining them with your non-seasonal (p, d, q). Our roadmap:
+Confirm the seasonal period s
+Stationarize with ordinary and seasonal differencing
+Read seasonal ACF/PACF spikes to guess P and Q
+Grid-search a small set of (p, q) × (P, Q)
+Fit the models to the grid from step 4
+Select the best model by AIC/BIC and hold-out error
+Step 1. Confirm the Seasonal Period
+Before you can set any seasonal parameters, you must know how long the season is. This is the single most important input to SARIMA.
+1. Domain knowledge (fast check)
+Does the business talk about “weekly cycles,” “monthly billing peaks,” or “quarterly budgets”?
+If the data are daily and operations close every weekend, start with s = 7.
+Hourly call-center data often cycle every 24 hours → s = 24.
+2. Visual inspection
+We will work with the same dataframe as we did with ARIMA.
+Plot the raw series:
+Copied code
+to clipboard
+1
+train.plot();                # visual peaks
+notion image
+ 
+Look for regularly spaced ridges or troughs. Count the spacing in days, hours, or months—that spacing is your candidate s.
+💡
+Think First!
+What do you see in the plot?
+Our Analysis
+From a quick visual scan you can see “ridges” (higher-than-average clusters of points) and “troughs” repeating at a fairly even cadence.
+If you mark any spike and count forward to the next one of similar height, you hit roughly the same spot after about seven days each time. That makes 7 days the most plausible seasonal period for this daily series—a classic weekly cycle.
+3. Inspect the ACF for spikes
+Plot the plain ACF up to, say, 3× your suspected period:
+Copied code
+to clipboard
+123
+from statsmodels.graphics.tsaplots import plot_acf
+
+plot_acf(train.values().flatten(), lags=30)          # look for bars at s, 2s, 3s …
+notion image
+If vertical bars appear at lag s, 2s, 3s … while the in-between lags are small, you’ve found a seasonal pulse at s.
+If no spikes appear, a seasonal model may not help.
+💡
+Think First!
+What do you see in the plot?
+Our Analysis
+Strong positive Lag 1 spike
+Yesterday’s sales are a very good predictor of today’s—classic short-memory momentum.
+Regular positive spikes at lags 7, 14, 21, 28
+A clear weekly cycle (period = 7 days). Every seventh day the autocorrelation climbs back to roughly 0.5, confirming the “same-day-last-week” effect.
+Alternating negative bars between those weekly peaks
+Values about half a week apart move in opposite directions, typical for a series with steady seasonality but no long trend.
+Conclusion for Step 1
+Season length (m) = 7. Weekly pattern is dominant.
+ 
+💡
+Exercise
+For the same store, but different item (103665), follow the same steps and decide on m.
+
+
+# Choosing Seasonal Orders for SARIMA: Step 2-3
+Lets continue with the rest of the steps:
+Step 2&3. Seasonal Differencing (D) and guess (P, Q) from Seasonal Lags
+Stationarize the series (d, D)
+d = ordinary differencing to wipe out long-term trend.
+D = seasonal differencing (diff(s)) to flatten the repeating level every s periods.
+Goal: after differencing the ACF no longer shows a slow, stair-step decay and the mean/variance look stable.
+Read seasonal lags in ACF & PACF to guess (P, Q)
+Run PACF/ACF on the seasonally differenced series (diff_season).
+Look at bars at lags s, 2s, 3s…
+Big PACF spike at lag s → start with P = 1 (seasonal AR).
+Big ACF spike at lag s → start with Q = 1 (seasonal MA).
+If spikes persist at 2 × s, test P = 2 or Q = 2; if they vanish after the first spike, one term is usually enough.
+Plot
+What to look for
+Initial guess
+Seasonal PACF (lags 7,14,21)
+First significant bar at lag 7 only
+P = 1
+Seasonal ACF
+First significant bar at lag 7
+Q = 1
+Copied code
+to clipboard
+123456789
+# Lets do 7-day Seasonal Differencing
+from statsmodels.graphics.tsaplots import plot_pacf
+
+arr = train.values().flatten()   # flatten to 1-d if it's uni-variate
+diff_season = np.diff(arr,7)
+
+s=7
+plot_pacf(diff_season, lags=3*s)   # look at lags s, 2s…
+plot_acf (diff_season, lags=3*s)
+notion image
+ACF (top): 
+No more big spikes at lags 7, 14, 21 … → the weekly seasonality is gone. Seasonal differencing ( D = 1, m = 7) worked: the series is now seasonally stationary.
+Now the strong lag-1 negative autocorrelation suggests we should keep a short non-seasonal MA(1) term (q = 1). Which is what we chose before in ARIMA.
+PACF (bottom): 
+Significant negative partial autocorrelations at lags 1 to 5, then everything dies out inside the band. A finite AR structure of about p ≈ 5 is enough to explain the remaining correlation; higher lags contribute little. Which is similar to what we chose before in ARIMA, which was p=6.
+To choose P and Q: After seasonal differencing (D = 1, m = 7), you’d expect any remaining seasonality to show up as significant spikes at lags 7, 14, 21… in the ACF/PACF. We have somehow still significant small spikes, so seems the weekly cycle has kind of been removed. Therefore, we will stablish P = 1 and Q = 1.
+ 
+💡
+Exercise
+For the same store, but different item (103665) and follow the same steps.
+
+
+
+# Choosing Seasonal Orders for SARIMA: Step 4
+Step 4. Combine with Non-Seasonal Orders
+Grid-search a small neighbourhood of parameters
+Keep d and D fixed.
+Try a short list of non-seasonal orders, e.g. (p, q) = (1,1), (2,1).
+Combine with one or two seasonal pairs, e.g. (P, Q) = (1,1) or (0,1).
+A handful of runs is usually enough to find the sweet spot without over-computing.
+ 
+In our time series, here are some ideas for the grid:
+Parameter
+Initial guess
+Neighbourhood to try
+p
+5
+4 – 6
+q
+1
+0 – 1
+P
+1
+0 – 1 (only if PACF at lag 7 looks non-zero)
+Q
+1
+0 – 1 (if ACF at lag 7 resurfaces)
+D
+1
+keep fixed (seasonal diff already helped)
+This is the resulting grid:
+Copied code
+to clipboard
+12345
+# six non-seasonal (p,d,q) combos …
+pdq      = [(4,0,0), (4,0,1), (5,0,0), (5,0,1), (6,0,0), (6,0,1)]
+
+# … tested against two seasonal (P,D,Q,m) settings
+seasonal = [(0,1,0,7), (0,1,1,7), (0,1,0,7), (0,1,1,7)]
+💡
+Exercise
+For the same store, but different item (103665) and follow the same steps.
+
+
+# Fitting SARIMA: Step 5
+Step 5. Forecast
+Forecast and compare MAE/RMSE against naïve seasonal baseline (repeat value from t – s).
+To model seasonality with ARIMA in DARTS, we can use the seasonal_order parameter within the ARIMA model, which mimics the functionality of SARIMA in statsmodels. seasonal_order=(P, D, Q, m): Represents the seasonal part of the model, where m is the periodicity of the seasonal component (e.g., m=7 for weekly seasonality if your data is daily).
+ 
+We will do one model as an example with seasonal_order=(1, 1, 1, 7).
+Copied code
+to clipboard
+1234567891011121314151617
+from darts.models import ARIMA
+
+# Initialize ARIMA model with both (p, d, q) and (P, D, Q, m) parameters
+# We will start by trying the guess of our analysis, we will then go to the grid as part of the exercise. 
+sarima_like_model = ARIMA(p=5, d=1, q=1, seasonal_order=(1, 1, 1, 7))
+
+# Fit the ARIMA model with seasonality on the training data
+sarima_like_model.fit(train)
+
+# Forecast the next values (the same length as the test set)
+
+ 
+After training the model on the training data, we forecast and plot the results:
+notion image
+ 
+💡
+Exercise
+For the same store, but different item (103665) and follow the same steps.
+
+
+
+
+# Fitting SARIMA: Step 6
+Step 6. Evaluate and Diagnose
+Compute AIC/BIC for each fitted model—lower is better. 
+Evaluate out-of-sample MAE or RMSE on a hold-out set—lower is better. 
+When the same model ranks best on both criteria, you’ve found a well-tuned SARIMA ready for forecasting.
+Copied code
+to clipboard
+12345
+# Evaluate
+aic = sarima_like_model.model.aic
+mae   = mean_absolute_error(test.values().flatten() , sarima_forecast.values().flatten() )
+print("AIC: ",aic)
+print("MAE: ",mae)
+AIC:  4422.4702737798325
+MAE:  97.85903009074654
+Interpret the plot from step 5 with the evaluation metrics from this step. After doing so, feel free to compare it with our interpretation by opening this toggle.
+Both the chart and the error numbers blow the plain ARIMA out of the water—the SARIMA traces the weekly peaks instead of flattening them. In short, adding the seasonal MA term let the model capture the 7-day rhythm that ARIMA kept missing.
+ 
+ 
+💡
+Try it yourself! 
+We’ve already fit one SARIMA configuration. Now turn that single-model notebook cell into a mini grid-search that tries every combination we sketched in the previous step.
+Evaluate the models as we saw with ARIMA, and pick the best model.
+Interpret your winner. Write a short paragraph answering:
+Which configuration won? (p,d,q) × (P,D,Q,s)
+How much better is its AIC / MAE than the runner-up and than the non-seasonal ARIMA you built earlier?
+ 
+Solution
+Copied code
+ to clipboard
+1234567891011121314151617181920212223242526
+from darts.models import ARIMA
+from sklearn.metrics import mean_absolute_error
+
+pdq      = [(4,0,0), (4,0,1), (5,0,0), (5,0,1), (6,0,0), (6,0,1)]
+seasonal = [(0,1,0,7), (0,1,1,7)]
+
+best_aic = float('inf')
+best_cfg = None
+
+for order in pdq:
+
+notion image
+The clear winner is SARIMA (4, 0, 1) × (0, 1, 1, 7)—it posts both the lowest AIC (≈ 4419) and the smallest MAE (\~ 98), cutting the error roughly in half versus models without the seasonal MA term.
+Adding one non-seasonal MA lag and one seasonal MA(1) after weekly differencing captures the remaining noise and weekly shocks better than any other configuration in the grid.
+💡
+Exercise
+For the same store, but different item (103665) and follow the same steps.
+ 
+Common Troubleshooting
+Symptom
+Likely Issue
+Fix
+ACF still spikes at seasonal lags
+D or (P,Q) too low
+Increase D to 1 or raise P/Q
+Model diverges / fails to converge
+Over-differenced or too many params
+Reduce D or drop extra terms
+Forecast too flat
+Count or intermittent data
+Try SARIMAX with exogenous regressors or a Poisson-based model
+☝🏼
+Selecting a set of values for the model parameters is crucial. We highly recommend following this guide on parameters selection. 
+Key Take-aways
+SARIMA = ARIMA + seasonal layer; you only need it when ACF/PACF show repeating seasonal spikes.
+Season length s is the first big clue → almost always known from business context (weekly, monthly, quarterly).
+Start simple: (p,d,q) from ARIMA + (P,D,Q) = (1,1,1) and iterate.
+Let AIC/BIC & validation error guide refinement, just like with ARIMA.
+
+# How to choose the parameters for the model
+from: https://arauto.readthedocs.io/en/latest/how_to_choose_terms.html#estimating-ar-terms
+
+Something it might be dificult to estimate the amount of terms that your model needs, chiefly when it comes to ARIMA. In this part, you be shown to some types of analysis that you can do to estimate the parameters of your model.
+
+Important: by default, Arauto will try to find the best parameters for ARIMA or SARIMA for you. The recommended values will be shown below the ACF and PACF plots, but you also can explore different parameters.
+
+The ACF and PACF function
+One good and intuitive approach to estimate the terms for seasonal and non-seasonal autoregressive models is to look at autocorrelation function and partial autocorrelation function. We are not going too deep in theorical concepts around these functions, but there are great resources around the web (see References section below). Basically, the autocorrelation function will show the relationship between a point in time and lagged values.
+
+For instance, imagine that we have a non-null time series collected in a daily basis. An autocorrelation of lag 1 will measure the relationship between the today’s value (Yt) and yesterday’s value (Yt-1). The values of the autocorrelation function and partial autocorrelation function can help us to estimate AR (p) terms, and MA (q) terms, respectively.
+
+To estimate the correct amount of terms, we must use a stationary series, which is basically a time series where there is a constant mean and variance over time. Arauto provides some resources to make a time series stationary, like log transformations, first differences, and so on (you may want to check the How to Use Arauto section to know more about transformation functions). Also, Arauto automatically generate plots for autocorrelation function (ACF) and partial autocorrelation function (PACF), making it easier to interpret and identify AR and MA terms.
+
+Example
+
+Let’s use an example to understand more about ACF and PACF. Here is the plots for the Monthly Wine Sales dataset on Arauto, which is stationary after a log difference transformation.
+
+_images/arauto_acf_pacf.png
+Estimating AR terms
+The lollipop plot that you see above is the ACF and PACF results. To estimate the amount of AR terms, you need to look at the PACF plot. First, ignore the value at lag 0. It will always show a perfect correlation, since we are estimating the correlation between today’s value with itself. Note that there is a blue area in the plot, representing the confidence interval. To estimate how much AR terms you should use, start counting how many “lollipop” are above or below the confidence interval before the next one enter the blue area.
+
+So, looking at the PACF plot above, we can estimate to use 3 AR terms for our model, since lag 1, 2 and 3 are out of the confidence interval, and lag 4 is in the blue area.
+
+Estimating I terms
+This is an easy part. All you need to do to estimate the amount of I (d) terms is to know how many Differencing was used to make the series stationary. For example, if you used log difference or first difference to transform a time series, the amount of I terms will be 1, since Arauto takes the difference between the actual value (e.g. today’s value) and 1 previous value (e.g. yesterday’s value).
+
+Estimating MA terms
+Just like the PACF function, to estimate the amount of MA terms, this time you will look at ACF plot. The same logic is applied here: how much lollipops are above or below the confidence interval before the next lollipop enters the blue area?
+
+In our example, we can estimate 2 MA terms, since we have lag 1 and 2 out of the confidence interval.
+
+Estimating Seasonal AR terms
+If your data has seasonality and you want to use a Seasonal ARIMA model, you need to inform the seasonal terms for AR, I, and MA. The process is quite similar to non-seasonal AR, and you will still using the ACF and PACF function for that. To estimate the amount of AR terms, you will look one more time to the PACF function. Now, instead of count how many lollipops are out of the confidence interval, you will count how many seasonal lollipops are out.
+
+For example, if your data was collected in a monthly basis and you have yearly seasonality, you need to check if the “lollipop” at lag 12 is out of the confidence interval area. In case of positive result, you need to add 1 term for Seasonal AR. In the plot above, we can see that the value at lag 12 is out of the blue area of the confidence interval, so we will add 1 terms for seasonal AR (SAR).
+
+Estimating Seasonal I terms
+The same logic of estimating non-seasonal differencing is applied here. If you used seasonal differencing to make the time series stationary (e.g. the actual value (Yt) substracted by 12 previous month (Yt-12)), you will add 1 term to seasonal differencing. In our example, we just used log differencing to make the time series stationary, we do not used seasonal differencing as well. So, we will not add 1 terms for seasonal differencing.
+
+Estimating Seasonal MA terms
+For seasonal moving average (SMA), we will be looking at the ACF plot and use the same logic of estimating SAR terms. For our example, we will be using not 1, but 2 terms for SMA. Why? Because we have significant correlation at lag 12 and lag 24.
+
+Final considerations
+At the end of this process, you will have all the terms needed to build your model. Below the ACF and PACF plot, Arauto will recommend the same amount of terms that we identified in this tutorial for p, d, q, P, D, and Q: (3, 1, 2)x(1, 0, 2). If you want to let Arauto optimize these parameters, you can select the option “Find the best parameters for me” and Arauto will apply Grid Search to your model. Keep in mind that this is high computational step, be sure that you have enough resources for this process.
+
+
+
+# Shortcomings of ARIMA and SARIMA Methods
+While ARIMA and SARIMA are powerful time-series forecasting techniques, they have some limitations:
+Stationarity Requirement: Both ARIMA and SARIMA assume that the data is stationary, meaning that its statistical properties (like mean and variance) do not change over time. This often requires transforming or differencing the data, which can be challenging for complex, non-linear series.
+Limited Non-Linearity Handling: ARIMA and SARIMA are linear models, meaning they may struggle to capture complex non-linear relationships in the data.
+Seasonality Issues: SARIMA can handle seasonality, but only if it is consistent and well-defined. If seasonality changes over time or if there are multiple seasonal patterns, SARIMA might not perform well.
+High Computational Cost for Large Data: Fitting ARIMA or SARIMA models can be computationally expensive when dealing with large datasets or long time series, as the models need to iterate over many lags.
+No Exogenous Variables Support in Basic ARIMA/SARIMA: While ARIMA and SARIMA can model the data based on its own past values, they do not easily incorporate external influences (exogenous variables) unless you use extensions like ARIMAX.
+There are many other classical methods, which don’t have such shortcomings, e.g Exponential Smoothing  or ARIMAX (AutoRegressive Moving Average with Exogenous Variables). We won’t cover them in our lessons, but if you would like to learn more about classical time-series methods, please check out the additional materials suggested for this week.
+💡
+You can find the notebook with the code example used in this lesson here.
+You have “Viewer” (read-only) access to the notebooks. To run and modify them, copy them in your Google-Drive space.
+
+
+# Machine-Learning for Time-Series: XGBoost
+
+Machine Learning for Time Series
+Traditional methods such as ARIMA and SARIMA are powerful when your data behave “nicely” (low noise, clear seasonality, modest trend). But modern business data are often messy: multiple products, tens of exogenous signals, regime shifts, and non-linear interactions. 
+1 . Why go beyond “classic” forecasting?
+Machine-learning (ML) models can:
+Capture non-linear patterns that linear ARIMA can’t see.
+Absorb many covariates (weather, promotions, web traffic) without manual feature engineering.
+Scale to hundreds or thousands of series by sharing parameters (boosted trees, deep nets).
+Handle long-horizon forecasts better by learning global structure rather than step-by-step recursion.
+2 . How ML treats time-series differently
+Topic
+Classical view
+ML view
+Input shape
+1-D sequence → predict next step
+Sliding windows or sequences mapped to targets (supervised learning)
+Stationarity
+Must difference / transform
+Network/tree can learn trend/seasonality directly if features supplied
+Model family
+Parametric, interpretable
+Flexible (trees, ensembles, neural nets) but often harder to explain
+Forecast strategy
+One model per series
+Global model across many series or one model with covariates
+3 . Common ML models for time-series
+Tree-based ensembles – Gradient Boosting, XGBoost, LightGBM
+Pros: fast, interpretable feature importance, handles missing values.
+Cons: need manual lag/rolling features; can’t extrapolate far beyond training range.
+Recurrent Neural Networks (RNN, LSTM, GRU)Pros: learn long-term dependencies; work well with multiple covariates.
+Cons: slower to train, require more data and tuning.
+Temporal Convolutional Networks (TCN) & 1-D CNNs
+Faster than RNNs, good for long sequences, easier to parallelise.
+Transformers / Attention models
+State-of-the-art for long horizons and complex patterns; require GPU and large data.
+Hybrid or “Statistical + ML”
+Combine trend/seasonality removal (STL) with ML on residuals; provides best of both worlds.
+In the next lessons, we will dive into machine learning methods for time-series forecasting, starting by focusing specifically on tree-based methods, like Gradient Boosting using XGBoost, and feature engineering techniques that are essential for ML-based approaches. Later, we will focus on Recurrent Neural Networks such as LSTM.
+
+
+# Building lag & rolling-window features for tree models
+Tree algorithms treat every row as an independent snapshot. They don’t “remember” yesterday unless we hand them yesterday’s value as its own column. Lag and rolling-window features inject that temporal memory so the model can learn patterns such as momentum, mean-reversion, and seasonality.
+The Core Feature Types:
+Feature
+What it captures
+Typical notation
+Lag
+Exact value k steps back
+lag_1, lag_7, lag_30
+Rolling mean
+Local trend / season level
+roll_mean_7
+Rolling std / var
+Recent volatility
+roll_std_14
+Count-since-last-zero / spike
+Inter-arrival info in intermittent demand
+days_since_last_sale
+Step-by-Step Code Walkthrough
+1. Loading and Preparing Data
+We will start by loading the necessary libraries and datasets, and preparing the data. We will follow the same steps as before. 
+Here is the code we used in case you missed something
+Copied code
+to clipboard
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+from darts import TimeSeries
+import requests
+import io
+import gdown
+
+# Build the download URL from a file ID
+
+
+ 
+2. Feature Engineering for Machine Learning
+Supervised machine learning models (like xgboost) require a collection of input features, so we need to engineer meaningful features from our time-series data in order to use xgboost. Some of the most important features for time-series forecasting are lag features and rolling statistics. Let’s make these features now!
+2.1. Creating Lag Features
+Lag features represent the past values of the time series, which are used to predict the future. Like a value for the past day, a week ago or a month ago. These are lags and we are going to create them now:
+Copied code
+to clipboard
+1234567
+# Create lag features (e.g., sales from the previous day, previous week)
+df_filtered['lag_1'] = df_filtered['unit_sales'].shift(1)
+df_filtered['lag_7'] = df_filtered['unit_sales'].shift(7)
+df_filtered['lag_30'] = df_filtered['unit_sales'].shift(30)
+
+# Drop any rows with NaN values after creating lag features
+df_filtered.dropna(inplace=True)
+notion image
+Explaining the output
+What you’re looking at
+After calling .shift() you created three new columns that each hold a copy of unit_sales moved backward in time.
+Because you then dropped the rows containing NaNs, every remaining row now has a “full history” of yesterday, last-week and last-month sales sitting next to today’s value.
+Column
+Meaning for the row dated 2013-02-13 (example)
+unit_sales
+The actual sales on 2013-02-13 
+lag_1
+Sales one day earlier -- 2013-02-12 
+lag_7
+Sales one week earlier -- 2013-02-06 
+lag_30
+Sales 30 days earlier -- 2013-01-14 
+So every row describes “Today plus three snapshots of the past.”
+When you hand this table to a tree model, it can learn rules like:
+“If the last-week value (lag_7) was ≥ 3 and yesterday (lag_1) was ≥ 2, predict higher sales today.”
+Why the first month of data disappeared
+shift(30) needs information 30 days back; for the first 30 calendar dates that value doesn’t exist, so Pandas filled them with NaN.
+You removed those rows with dropna(inplace=True), leaving only dates where all lags are defined.
+ 
+2.2. Creating Rolling Statistics
+Rolling statistics capture the moving average or moving standard deviation over a window of time. We’ve already done it before when we were smoothing our data. Now, let’s do it again. This time, with more than one window size. We need it to introduce multiple new features that we’ll feed into our xgboost algo later on.
+Copied code
+to clipboard
+123456789101112
+# Create rolling mean and rolling standard deviation features. 
+# We need to shift by one before rolling so only past data are used.
+df_filtered['rolling_mean_7'] = df_filtered['unit_sales'].shift(1).rolling(window=7).mean()
+df_filtered['rolling_std_7'] = df_filtered['unit_sales'].shift(1).rolling(window=7).std()
+
+# Drop any NaN values after creating rolling features
+df_filtered.dropna(inplace=True)
+
+# Visualize the new features alongside the original sales
+df_filtered[['unit_sales', 'rolling_me
+notion image
+2.3. Adding Date-based Features
+We can also extract features from the date, such as the day of the week, month, and whether the day is a weekend or a holiday.
+Copied code
+to clipboard
+1234
+# Add date-based features
+df_filtered['day_of_week'] = df_filtered.index.dayofweek
+df_filtered['month'] = df_filtered.index.month
+df_filtered['is_weekend'] = df_filtered['day_of_week'].apply(lambda x: 1 if x >= 5 else 0)
+ 
+Explaining the output
+Date-Based Features Added
+Column
+Example (2013-02-17)
+Interpretation
+day_of_week
+6
+Day index where Monday = 0 → Sunday is 6.
+month
+2
+Calendar month (February).
+is_weekend
+1
+Flag created by day_of_week >= 5.
+All numerical lags and rolling stats remain, so each row now describes:
+“Sales today, what happened yesterday, last week, last month, plus a 7-day trend & volatility, and where this day sits in the calendar.”
+ 
+ 
+How the Model Uses These Features
+Seasonal spikes: If weekends usually trigger purchases, a tree can split on is_weekend == 1 and boost the forecast for Saturdays/Sundays.
+Holiday effects: Adding a month or even a specific holiday flag lets the model learn that December days tend to have higher rolling means.
+Local smoothing: The rolling mean acts like a dynamic baseline; when it rises, the tree can increase its prediction even if yesterday’s lag is zero.
+Volatility awareness: High rolling_std_7 values warn the model that big spikes are possible, so it may predict a slightly higher baseline to hedge.
+Key Take-aways
+Lag columns give the model exact memory of past values.
+Rolling columns provide context about recent level and volatility.
+Calendar columns encode periodic effects without manual one-hot for every date.
+Always shift before rolling and drop initial NaNs to avoid leaking future information.
+💡
+Try it yourself!
+For the same store, but different item (103665) and follow the same steps.
+
+
+# XGBoost
+XGBoost is a powerful machine learning algorithm that has been dominating the world of data science in recent years.
+XGBoost, short for Extreme Gradient Boosting, is widely used for both classification and regression tasks. 
+It is particularly well-suited for structured/tabular data like the data you'd encounter in finance, marketing, or retail sales. 
+At the heart of XGBoost are decision trees, which you already met during Basic ML course. This is a type of model that splits the data into "branches" based on questions about the features. 
+XGBoost works by training a number of decision trees. Each tree is trained on a subset of the data, and the predictions from each tree are combined to form the final prediction.
+notion image
+ 
+Why is XGBoost So Popular?
+Accuracy: XGBoost is known for providing very accurate predictions, which is why it is often used in data science competitions and real-world applications.
+Speed: XGBoost is optimized for speed and performance, using techniques like parallel processing to train models much faster than other boosting algorithms.
+Handles Missing Data: XGBoost is good at dealing with missing data. It can handle missing values naturally without needing to fill or remove them beforehand.
+Feature Importance: It automatically identifies the most important features in your dataset. This can give you insights into which factors are driving predictions.
+Flexibility: XGBoost can be used for both classification (e.g., predicting whether a customer will buy a product or not) and regression tasks (e.g., predicting a numerical value like sales).
+Overfitting Control : XGBoost has built-in techniques (like regularization) to prevent overfitting, which happens when the model memorizes the training data but doesn’t generalize well to new data.
+ 
+☝🏼
+XGBoost is a highly accurate, fast, and flexible machine learning algorithm that is widely used for a variety of prediction tasks.  We will use it for time-series forecast, but it can be used for other regression task, as well as, for classification.
+
+
+
+# Building XGBoost model for demand forecasting
+Now let’s see how to use XGBoost in practice.
+1. Splitting Data into Training and Testing Sets
+We will split the dataset into training and testing sets, making sure that the test set contains the most recent data.
+Copied code
+to clipboard
+12345678
+from sklearn.model_selection import train_test_split
+
+# Define target variable (unit_sales) and features
+X = df_filtered.drop('unit_sales', axis=1)
+y = df_filtered['unit_sales']
+
+# Split the data into training and testing sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+2. Implementing XGBoost for Time-Series Forecasting
+XGBoost is a powerful tree-based method for regression and classification tasks. Here, we’ll use it to predict future sales based on the features we've engineered.
+Copied code
+to clipboard
+12345678910
+import xgboost as xgb
+
+# Initialize the XGBoost regressor
+xgboost_model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, max_depth=5, learning_rate=0.1)
+
+# Train the XGBoost model
+xgboost_model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = xgboost_model.predict(X_test)
+3. Plotting Actual vs Predicted Values
+Now, we will visualize the performance of the XGBoost model by comparing the predicted values to the actual sales in the test set.
+Copied code
+to clipboard
+1234567
+# Plot the actual vs predicted values
+plt.figure(figsize=(14, 7))
+plt.plot(y_test.index, y_test.values, label='Actual Sales')
+plt.plot(y_test.index, y_pred, label='Predicted Sales', color='red')
+plt.title('Actual vs Predicted Sales using XGBoost')
+plt.legend()
+plt.show()
+notion image
+The XGBoost model tracks the timing of most weekly peaks and troughs fairly well: red spikes often align with the black ones, showing it has learned the seven-day rhythm. However the amplitudes are off—early in the window it overshoots big highs and undershoots some lows, while from mid-February onward it drifts high, giving forecasts that are too smooth and slightly biased upward. In short, the model captures the weekly pattern but still struggles with the size of extreme swings.
+4. Metrics
+We will use MAE as its the metric we used during ARIME. 
+Copied code
+to clipboard
+123456
+from sklearn.metrics import mean_absolute_error
+
+# y_test and y_pred are Pandas Series aligned by date
+mae  = mean_absolute_error(y_test, y_pred)
+
+print(f"MAE   : {mae:.3f} units")
+MAE   : 116.167 units
+If we compare MAE from the ARIMA model and this one, we can see that it improved with xgboost, but not from SARIMA.
+Note: MSE in Xgboost vs MAE in evaluation
+During training XGBoost with objective='reg:squarederror' minimizes MSE/RMSE, which penalises large errors more heavily (squared term).
+During evaluation you can report MAE to express average absolute error in more interpretable units.
+💡
+Try it yourself!
+Modify the xgboost hyperparameter’s (such as n_estimators). Interpret your winner. 
+💡
+Exercise: 
+For the same store, but different item (103665) and follow the same steps.
+Key Takeaways
+☝
+Feature Engineering
+We created lag features, rolling statistics, and date-based features to help the XGBoost model capture temporal dependencies in the sales data.
+Machine Learning 
+XGBoost was trained on these features to predict future sales. It’s a flexible and powerful tool that can handle non-linear relationships and multiple input features.
+Performance
+By evaluating the MAE, we can assess how well the model predicted future sales. You can further tune the model by adjusting parameters like n_estimators and max_depth. 
+
+
+# Quick Introduction in Deep Learning
+
+# Quick Introduction in Deep Learning
+Deep Learning (DL) is a sub-field of Machine Learning (ML) that uses neural networks to model and learn from data. These networks excel in identifying complex patterns and making decisions based on that data. It automates the extraction of important features from raw data, especially in fields like time-series, image recognition, language processing, and more. 
+(Deep) Neural Networks
+A typical neural network (or NN in short) uses layers of interconnected nodes called neurons that work together to process and learn from the input data. 
+notion image
+Input layer: Raw features (pixels, words, sensor readings, …) enter the model.
+Hidden layers (≥ 1): One or more hidden layers connected one after the other. If there are multiple hidden layers, then the Neural Network is called Deep Neural Network. 
+Each neuron receives input from the previous layer neurons or the input layer.  The output of one neuron becomes the input to other neurons in the next layer of the network, and this process continues until the final layer produces the output of the network. 
+Output layer: Final activations are mapped to predictions—probabilities, classes, or numeric values.
+ 
+📌
+The layers of the neural network transform the input data through a series of nonlinear transformations, allowing the network to learn complex representations of the input data.
+How Deep Neural Networks Learn
+To make a deep learning model useful, it must first be trained. This involves several key steps:
+Forward Propagation: Data flows through the network from the input layer to the output layer. Each layer processes the data and passes it to the next layer.
+Error Calculation (Loss Function): Once the network makes a prediction, the model calculates how far its prediction is from the true value. The difference between the prediction and the correct label is captured using a loss function (e.g., Mean Squared Error for regression or Cross-Entropy for classification).
+Back-propagation: After computing the loss, the network adjusts the weights to reduce errors. This is done by propagating the error backward from the output to the input layers. This process updates the weights to minimize the loss and improve predictions.
+Gradient Descent: The model uses optimization algorithms like Stochastic Gradient Descent (SGD) to update weights. It minimizes the loss by following the direction of the steepest descent (i.e., the negative gradient of the loss function) to reach the optimal solution.
+📌
+Training often requires large datasets and many iterations (or epochs) to ensure the network learns effectively.
+Common Deep Learning Frameworks
+Getting started with deep learning is easier thanks to the availability of robust frameworks. The most popular ones are:
+📌
+TensorFlow: Developed by Google, it is one of the most popular libraries, supporting both deep learning and machine learning tasks.
+PyTorch: Known for its flexibility and ease of use, PyTorch is popular among researchers and practitioners alike. It allows for dynamic computation graphs, making debugging and experimentation more intuitive.
+These frameworks handle the complex mathematics behind neural networks and allow you to focus on building and training models quickly. 
+In the past TensorFlow was quite popular and one can still find a lot of learning resources like tutorial for TensorFlow. However in production settings, PyTorch turned out to be more efficient and many libraries are using PyTorch under the hut.
+Key benefits of Deep Learning
+Deep learning has several advantages over traditional machine learning:
+Automated Feature Extraction: Traditional machine learning algorithms require human experts to manually extract relevant features from raw data. Deep learning, on the other hand, learns these features automatically from data.
+Handling Complex Data: Deep learning shines when working with complex, high-dimensional, and unstructured data, such as images, sound, and text. It learns directly from the raw data without needing complex preprocessing.
+Generalization: With enough data, deep learning models can generalize well to new, unseen data, making them highly effective in real-world applications.
+Challenges in Deep Learning
+Using Deep learning in practice means overcoming some related challenges:
+Data Requirements: DL models generally require large amounts of labeled data to achieve high performance. This can be a problem in fields where data is scarce or expensive to obtain.
+Computational Resources: Training deep networks is computationally expensive. GPUs (Graphics Processing Units) or specialized hardware like TPUs (Tensor Processing Units) are often necessary to speed up training.
+Interpretability: Deep networks, especially very large models, are often described as "black boxes" because it’s difficult to understand how they arrive at their predictions. This can be problematic in applications where transparency is critical (e.g., healthcare, finance).
+Despite these challenges, deep learning continues to advance, making it possible to tackle even more complex and diverse problems.
+Conclusion
+Deep Learning has had a profound impact on how we approach machine learning tasks. It excels at dealing with large datasets and extracting meaningful patterns from raw data. By using neural networks, deep learning models are able to automatically learn complex representations, making them ideal for a variety of tasks like image recognition, language translation, and game AI.
+In this course we will focus on some particular type of Deep Learning architectures for our Time Series use case. To learn more about Neural Networks, please have a look at the additional material suggested for this week.
