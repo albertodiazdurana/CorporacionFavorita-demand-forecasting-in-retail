@@ -245,3 +245,44 @@ marimo/_lsp/
 __marimo__/
 docs/plans/ProjectReference_Documentation.md
 
+# Summary: ML/DL workflow for Time Series
+A typical ML/DL-for-TS workflow
+Problem framing: 
+Pick the granularity (hourly, daily…).
+Decide the forecast horizon (next 24 h, next 12 weeks…).
+Choose the business metric you will optimise (MAE/MAPE for demand, service-level for inventory).
+Feature engineering
+For classical ML models (trees, linear, SVR)
+Lag columns: t – 1, t – s, t – 2s, rolling means/stds.
+Calendar flags: weekday dummies, month, holiday binary.
+External regressors: weather, promo flag, web traffic.
+Target transforms (log, Box-Cox) if Gaussian noise is assumed. This is needed for linear regression, SVR, kNN. Not for tree based algorithms.
+For DL models (such as RNN/LSTM)
+Often no need for lag & rolling features:  sequence models see raw history.
+Categorical IDs → embeddings (shop_id, item_id).
+Normalise/standardise each continuous channel; leave binaries as 0/1.
+Known-future features (price calendar, promo schedule).
+Train / validation split
+Time-based only – no shuffling.
+Classical ML: expanding window or walk-forward back-test.
+Expanding-window back-test: start with the first N observations, train → test on the next block; then enlarge the window and repeat.
+Walk-forward (a stricter variant) re-fits the model at every step—good for small datasets.
+DL: use early-stopping or a rolling validation set; ensure batches respect chronological order.
+Early-stopping split: reserve the last 10–20 % of the series as a validation block; stop training when that error stops improving.
+Rolling validation: if you want multiple DL re-trains.
+Model selection & tuning
+ML: 
+Choose a small grid or use Bayesian search over for different parameters. For example: tree depth.
+Evaluate each config with the expanding-window test from Step 3.
+Pick the lowest MAE/MAPE and simplest model that meets business targets.
+DL:
+Tune architecture: number of layers, hidden units, dropout, attention heads.
+Tune optimiser schedule: learning rate, batch size, epochs.
+Use validation loss for early stopping; if multiple configs converge, rank by hold-out MAE/MAPE.
+Residual diagnostics
+Check whether residuals still show autocorrelation or seasonality; if so, add lags or seasonal dummies.
+Deployment & monitoring
+Automate retraining, track live error drift, set alarms for regime changes.
+ 
+📌
+If your series are short, clean, and low-noise, start with classical ARIMA/SARIMA. Otherwise, an ML approach—starting with boosted trees and moving toward deep-learning—often unlocks lower error and richer insights.
