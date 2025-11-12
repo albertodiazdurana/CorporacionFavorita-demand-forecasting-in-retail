@@ -1,0 +1,31 @@
+Feature Dictionary - Guayas Prepared Dataset
+======================================================================
+
+id                        Unique transaction ID from Kaggle dataset
+date                      Transaction date (YYYY-MM-DD)
+store_nbr                 Store number (24-51 in Guayas region)
+item_nbr                  Item/product number (unique SKU identifier)
+unit_sales                Number of units sold (target variable)
+onpromotion               Promotion flag (1=promoted, 0=not promoted)
+family                    Product family (GROCERY I, BEVERAGES, CLEANING)
+class                     Product class (subcategory within family)
+perishable                Perishable flag (0=non-perishable, 1=perishable) - All 0 in sample
+city                      Store city (Guayaquil, Daule, Libertad)
+state                     Store state (Guayas)
+type                      Store type (A=premium, B=good, C=medium, D=basic, E=entry)
+cluster                   Store cluster (1-17, grouping similar stores)
+year                      Year (2013-2017)
+month                     Month (1-12)
+day                       Day of month (1-31)
+day_of_week               Day of week (0=Monday, 6=Sunday)
+day_of_month              Day within month (1-31, duplicate of "day")
+is_weekend                Weekend flag (1=Sat/Sun, 0=weekday)
+is_holiday                Holiday flag (1=national holiday, 0=normal day)
+holiday_type              Holiday type (Holiday, Event, Additional, Transfer, Work Day, Bridge)
+holiday_name              Holiday description (e.g., Christmas, Independence Day)
+days_to_holiday           Days to nearest holiday (absolute distance)
+is_pre_holiday            Pre-holiday flag (1-3 days before holiday)
+is_post_holiday           Post-holiday flag (1-3 days after holiday)
+holiday_proximity         Signed days to holiday (negative=after, positive=before)
+holiday_period            Holiday period label (pre, holiday, post, normal)
+promo_holiday_category    Promotion × Holiday interaction category
