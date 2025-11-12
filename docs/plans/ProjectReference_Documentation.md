@@ -2935,3 +2935,362 @@ Despite these challenges, deep learning continues to advance, making it possible
 Conclusion
 Deep Learning has had a profound impact on how we approach machine learning tasks. It excels at dealing with large datasets and extracting meaningful patterns from raw data. By using neural networks, deep learning models are able to automatically learn complex representations, making them ideal for a variety of tasks like image recognition, language translation, and game AI.
 In this course we will focus on some particular type of Deep Learning architectures for our Time Series use case. To learn more about Neural Networks, please have a look at the additional material suggested for this week.
+
+
+# Recurrent Neural Networks (RNNs) for Time-Series
+Two widely used Deep-Learning architectures for Time-Series forecasting are Recurrent Neural Networks (RNNs) and Long Short-Term Memory Networks (LSTMs). 
+Recurrent Neural Networks (RNNs)
+📌
+Recurrent Neural Networks (RNNs) are a class of neural networks designed to handle sequential data by maintaining a "memory" of previous inputs. This makes them ideal for tasks like time-series forecasting, where predictions at one time step depend on the data from previous time steps.
+Unlike traditional neural networks, where inputs are treated independently, RNNs use the output from previous time steps as part of the input for the current time step. This allows RNNs to capture patterns over time.
+How RNNs Work:
+Each node in an RNN not only processes the current input but also remembers the previous state of the network. This enables RNNs to make predictions that depend on historical data, making them a natural choice for time-series tasks. Here are how RNNs (a) differ from the fully-connected neural nets (b) that we described in the previous lesson:
+notion image
+📌
+However, basic RNNs have a limitation known as the vanishing gradient problem, where the influence of earlier inputs diminishes as the network looks further back in time. This makes it difficult for RNNs to learn long-term dependencies. 
+That’s why we’d like to skip a long conversation about RNNs and start talking about LSTMs!
+
+
+# Long Short-Term Memory Networks (LSTMs) for Time-Series
+📌
+LSTMs are a specialized type of RNN that addresses the vanishing gradient problem. LSTMs introduce mechanisms called gates that control the flow of information, allowing the network to retain important information over long sequences and discard irrelevant information.
+LSTMs are very useful for sequential data, like time-series or natural language. Key benefits:
+Handling Long-Term Dependencies: LSTMs are particularly useful when predictions depend on data from far back in the sequence (e.g., seasonal effects in sales data).
+Complex Patterns: LSTMs can capture complex, non-linear patterns in the data that may span over multiple time steps, which traditional models or simple RNNs may struggle with.
+LSTM networks are especially effective for retail forecasting because they can retain information from past data, enabling them to capture both short-term fluctuations and long-term trends in sales. This is valuable for retail, where seasonal patterns, promotions, holidays, and other factors often affect sales.
+Key Components of LSTMs
+An LSTM layer is like a mini-factory that decides, every time step, what to keep, what to throw away, and what to share with the next step.
+It does this with three tiny decision-makers called gates and a long-term storage belt called the
+cell state.
+notion image
+ 
+Forget Gate  – “What can I safely ignore?”
+Job: Decides which information from the previous time steps should be discarded. 
+How: It does so by looking at the last hidden state + current input and produces numbers between 0 and 1. 0 → throw it away, 1 → keep it.
+Retail example: the model might decide last year’s Black-Friday spike is noise for forecasting February sales, so it assigns a value near 0 and that info gets wiped.
+Input Gate – “What new info is worth storing?”
+Job: Determines which new information should be added to the network's memory.
+How: Splits into two parts:
+A sigmoid filter (yellow in the diagram) says how much of today’s signal to allow in.
+A tanh candidate (pink) proposes what to store.
+These are called activation functions, and we will discuss them later.
+Retail example: sees a sudden 3-day promo and decides “Yes, this matters” (sigmoid ≈ 1) and writes those promo-boosted numbers onto the belt.
+Cell State – “Long-term memory lane”
+Job: is the "memory" of the LSTM, allowing it to carry information over long periods. 
+How: Is a conveyor belt that flows straight down the cell, tweaked only by the forget-and-add steps above.
+In retail: Lets the network carry seasonality or trend across dozens/hundreds of days without fading.
+Output Gate – “What should I reveal right now?”
+Job: Chooses what the network should output at the current time step based on its memory.
+How: Combines the updated cell state with a new sigmoid filter to decide today’s hidden output. Passes that hidden vector to
+the next LSTM unit (time t+1) and
+the dense layer that makes the actual forecast.
+Retail example: 
+Imagine an LSTM that has already stored seasonal knowledge (“weekends sell more”) and promo knowledge (“20 %-off coupon boosts demand”) in its cell state.
+When it reaches Tuesday, March 15, the output gate asks two questions for each component of that memory vector:
+Does the customer actually care about this piece of information today?
+Should I pass it forward to make the Day + 1 forecast and to the next LSTM step?
+Concrete scenario:
+Memory component inside the cell
+Forget Gate already decided to keep…
+Output Gate decision for today
+Why
+Weekend boost
+kept at 100 % (Friday is coming)
+0.1 → reveal only 10 % of it
+It’s Tuesday, so weekend info isn’t helpful yet.
+Coupon-promo effect
+kept at 60 % (coupon still valid)
+0.8 → reveal most of it
+The coupon runs until Wednesday and should influence today’s prediction.
+Christmas peak
+kept at 100 % (long-term memory)
+0.0 → reveal nothing
+It’s March; don’t let Christmas inflate today’s forecast.
+Putting It All Together
+Copied code
+to clipboard
+12345
+Old cell state ──> [ Forget some ] ─┐
+																		│
+					New info ─> [ Decide + add] ──> 📦 Updated cell state
+																		│
+																		└─> [ Output gate ] ──> Hidden output (goes to next step / final prediction)
+Because each gate learns its own set of weights, the LSTM can forget weekly noise, remember seasonal cycles, and react to sudden events—all in one model. That makes it a powerhouse for:
+📈 Sales forecasting (promo spikes + Christmas season)
+💹 Stock-price moves (intraday jitter + macro trends)
+🌦 Weather prediction (hourly fluctuations + yearly cycles)
+
+
+# LSTMs for Time-Series Retail Sales Dataset
+
+LSTMs for Time-Series Retail Sales Dataset
+Adapting LSTM to Retail Sales Dataset
+For retail, each time step could represent a day, week, or month of sales, and each "sample" represents the sales history of a specific shop-product combination. 
+In this multivariate time series setup, LSTM can leverage multiple features like:
+Shop ID and Product ID to distinguish patterns between different shops and products.
+Sales Volume as the primary target variable.
+Auxiliary Features (like holiday indicators, promotion status, or weather data) to help the model understand external influences on sales.
+Steps to Use LSTM for Retail Sales Forecasting
+Here is how our workflow would look like if we want to implement LSTMs:
+Data Preparation:
+Scale the Data: Scale each feature (sales volume, shop IDs, etc.) to improve LSTM training effectiveness.
+Here’s a practical rule set for LSTM (or any neural-network) inputs
+Feature type
+Should it be scaled?
+Typical treatment
+Continuous numeric values (sales volume, price, temperature)
+Yes
+Standardize (zero-mean/ unit-variance) or min–max-scale. Keeps gradients stable and lets the network learn faster.
+Counts with a wide range (customer visits, stock level)
+Yes (often log-transform first, then scale)
+Reduces skew and prevents large counts from dominating the loss.
+Binary flags (promo on/off, holiday)
+No
+Already in \[0, 1]; leave as is.
+Categorical IDs (shop\_id, item\_id)
+Don’t numeric-scale
+Convert to embeddings or one-hot vectors. A linear scaler would assign arbitrary numeric distances that carry no meaning.
+Date/time parts (day-of-week, month)
+Usually embed or one-hot
+You can also sine/cosine-encode cyclical fields; raw scaling loses cyclical nature.
+📌
+Scale every continuous feature; leave binary flags as is; embed categorical IDs; don’t blindly scale everything.
+Reminder when scaling
+Fit the scaler only on the training set and apply the same transform to validation/test to avoid leakage.
+Use StandardScaler for data that look roughly Gaussian; use MinMaxScaler if you need everything in 0–1 (e.g., tanh activation).
+Keep a reverse-transform handy so you can map predictions back to the original units.
+Reshape for LSTM: LSTM requires a 3D input format:  [samples, time steps, features]. 
+samples – each shop-product pair in your batch
+time_steps – the number of past periods you feed in (e.g., the last 30 days)
+features – everything you know at each period: past sales, promo flag, holiday flag, price, weather, etc.
+So, for one shop–item with 30 days of history and, say, 8 columns of data, the single training sample the LSTM sees is shaped (1, 30, 8).
+Train-Test Split: Split your data into a training set for model training and a test set for evaluating forecasting accuracy.
+Building the LSTM Model:
+Use multiple LSTM layers with dropout and a dense layer for the final output.
+Think of one LSTM layer as a “memory reader.” Adding a second (or third) LSTM layer lets the network build richer memories: the lower layer captures very short-term wiggles; the upper layer learns longer trends.
+Dropout is like randomly muting a few neurons while training so the model can’t “memorise” quirks in the training set—this is a simple defence against over-fitting.
+The number of LSTM units (neurons) per layer will affect the model’s ability to capture complex patterns, so it’s common to experiment with different values.
+Each unit is a tiny memory cell.
+More units → more capacity to learn complex patterns, but also more risk of over-fitting and slower training.
+We typically start with 32 – 64 units in the first LSTM layer and double or halve to see what works.
+Training the Model:
+Compile with an appropriate loss function (like Mean Squared Error, useful for regression tasks).
+Epochs and Batch Size: Training the model involves specifying the number of epochs (cycles through the data) and batch size. 
+Epoch = one full pass through all training sequences.
+Batch size = how many sequences the network sees before updating its weights.
+For big retail datasets (like ours) you might try batch_size=128 and start with 20–30 epochs, then watch the validation loss—add more epochs if the curve is still dropping. Tip: if validation loss starts rising, stop early to avoid over-fitting.
+Making Predictions:
+Once trained, the LSTM model can be used to forecast future sales for each shop-product combination by inputting the past sales data and auxiliary features.
+Inverse Scaling: Since the data was initially scaled, inverse transform the predictions to get actual sales values.
+Now, let’s put it all into practice!
+
+# Practice of LSTM on Demand Forecasting Dataset
+In this lesson, we’ll apply an LSTM network to the Corporación Favorita Grocery Sales Forecasting dataset to predict future sales.
+Step 1: Loading and Preparing Data
+We’ll stay in the same Google Colab notebook. Because we changed df_filtered while building the XGBoost model, let’s reload the clean pickled version before we switch to LSTM.
+If your Colab session has restarted
+Re-run the import cells (libraries, helper functions).
+Reload the base datasets and the pickled df_train you saved earlier.
+That file already contains the essential prep work:
+date converted to datetime
+daily aggregation and gap-filling
+single item-store pair extracted for forecasting
+Once the clean dataframe is back in memory, we can start the prep pipeline—scaling, sequence building, train/test split—and train the LSTM without any accidental artefacts left over from the XGBoost experiment.
+Here is the code we used in case you missed something
+Step 2: Preprocessing the Data for LSTM
+We will treat the problem as univariate forecasting: we will start using only past sales, to try to predict future sales.
+Input to the LSTM = a window of the past unit-sales values X[i] → [sales(t-29), …, sales(t)]
+Target the network must predict = the very next unit-sales value y[i] → sales(t+1)
+📌
+Remember not to fit the scaler on the entire series, including data that later belong to the test set.
+That lets information from the future influence the scaling of the past—exactly the kind of leakage we try to avoid in forecasting.
+The no-leak workflow is:
+Fit scaler on y_train (or X_train) only.
+Transform both train and test with those parameters.
+Extract the series we want to predict: We start by pulling the unit_sales column out of the DataFrame and reshaping it into a two-dimensional NumPy array.  The LSTM API—and the helper functions we’ll write in a moment—expect this (T, 1) shape, where T is the number of time-steps and “1” is the single feature we have (sales).
+Copied code
+to clipboard
+1
+values = df_filtered['unit_sales'].values.reshape(-1, 1) # This gives us unit sales in a format that our functions like
+Create a proper time-based train / test split: Because future data must never sneak into the past, we split the series chronologically: the first 80 % of dates become training history, and the last 20 % are held out for testing.  No shuffling is allowed in time-series work; the model must make predictions on periods it has truly never seen.
+Copied code
+to clipboard
+1234
+# Train / test calendar split  (80 / 20): Splits by time—first 80 % for training, last 20 % for testing (no shuffling).
+train_cut = int(len(values) * 0.8)
+train_raw = values[:train_cut]
+test_raw  = values[train_cut:]           # keep future data intact
+Scale the data—but only on the training slice: LSTMs learn via gradient descent.  Feeding them raw counts that range from 0 to (say) 100 inflates some gradients and shrinks others.  We use a MinMaxScaler to remap the training values to the range [0, 1].  Crucially, the scaler’s parameters (min and max) are fitted only on the training slice, then the identical transformation is applied to the test slice.  That prevents information-leakage from the future.
+Copied code
+to clipboard
+123456
+from sklearn.preprocessing import MinMaxScaler
+
+# Fits the Min-Max scaler on the training slice only to avoid leaking future information.
+scaler = MinMaxScaler()                  # rescales to the range [0, 1]
+train_scaled = scaler.fit_transform(train_raw)
+test_scaled  = scaler.transform(test_raw)
+ 
+Transform the 1-D series into supervised “windows”
+The network can’t look arbitrarily far back; we have to present it with fixed-length clips.
+Each input window will hold the previous 30 days of scaled sales.
+The target label will be the very next day’s sales value.
+We will create a helper make_sequences() function that walks along the scaled array, slicing out overlapping windows and storing them in X, while the corresponding “next value” is stored in y.  The result is four clean NumPy arrays: X_train, y_train, X_test, y_test.
+Copied code
+ to clipboard
+12345678910111213141516171819202122232425
+# Turn the scaled series into [samples, time_steps, features]
+
+# Creates sliding windows of length 30: each window becomes one training sample, and the next real value becomes the label.
+SEQ_LEN = 30                             # past 30 days → predict day 31
+
+def make_sequences(arr, seq_len):
+    X, y = [], []
+    for i in range(len(arr) - seq_len):
+        X.append(arr[i : i + seq_len, :])   # seq_len rows × 1 feature
+        y.append(arr[i + seq_len, 0])       # target is the very next value
+
+Hand off these arrays to the model
+After the reshape, X_train has the exact 3-D shape that Keras wants:(samples, time_steps, features) → (N, 30, 1).
+From here you can build a Sequential model with an LSTM layer, fit it on the training data, and measure performance on the test data.
+Return predictions to real units
+Because everything was scaled to [0, 1], the model’s outputs will also be in that range.  After inference, we’ll apply scaler.inverse_transform(...) to convert the forecasts back to actual unit counts so the stakeholders can read the numbers and the plots make sense.
+
+
+# Practice of LSTM on Demand Forecasting Dataset Part II
+Step 3: Building, Training, Making Predictions and Evaluating the Model
+We follow these steps:
+Lets define a tiny LSTM with 64 units, a dropout layer, and a linear output neuron.
+Train for 30 epochs with MAE loss (tune epochs/batch to taste).
+Generate predictions on your held-out test windows.
+Inverse-scales both predictions and ground truth so the plot is in real unit-sales counts.
+Plots the two series so you can eyeball where the model under- or over-shoots.
+ 
+Lets look into it with more detail:
+Build the network structure – “the brain”
+We create a Sequential model, which is just a stack of layers from top to bottom.
+LSTM(64): 64 memory cells look at the past 30 time-steps and squeeze that history into one hidden vector.
+Dropout(0.2): during training, 20 % of the neurons are randomly muted each step so the network can’t just memorise the training data.
+Dense(1): a single linear neuron converts the hidden vector into tomorrow’s predicted sales.
+Copied code
+to clipboard
+1234567891011121314
+import tensorflow as tf
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import LSTM, Dropout, Dense
+import matplotlib.pyplot as plt
+import numpy as np
+
+# ------------------------------------------------------------------
+# 1. Build a simple LSTM model
+# ------------------------------------------------------------------
+model = Sequential([
+
+Tell Keras how to learn
+We compile with the Adam optimiser (a popular flavour of gradient descent) and MAE loss (mean-absolute-error), which is intuitive for unit sales: “on average, how many units am I off?”
+Copied code
+to clipboard
+1
+model.compile(optimizer="adam", loss="mae")
+Train the network
+Epochs = 30 means it will loop through the training windows 30 times.
+Batch size = 32 tells Keras to update the weights after every 32 samples—small enough to fit in memory, large enough for stable gradients.
+validation_split=0.1—the last 10 % of X_train is held out each epoch so we can watch for overfitting while it trains.
+Copied code
+to clipboard
+12345678910
+# ------------------------------------------------------------------
+# 2. Train
+# ------------------------------------------------------------------
+history = model.fit(
+    X_train, y_train,
+    epochs=30,
+    batch_size=32,
+    validation_split=0.1,
+    verbose=2 # This is so we can see on the screen one compact line per epoch (Epoch 1/30 loss=… val_loss=…).
+)
+Generate forecasts on unseen data
+Using model.predict(X_test) we feed the held-out windows into the network and get a sequence of scaled forecasts (they’re still between 0 and 1).
+Copied code
+to clipboard
+1234
+# ------------------------------------------------------------------
+# 3. Predict on the test set
+# ------------------------------------------------------------------
+y_pred_scaled = model.predict(X_test).flatten()
+Note that predict() returns a 2-D array with shape (samples, 1).flatten() squeezes it into a 1-D array (samples,). Makes it easier to feed the predictions into inverse_transform, error metrics, and plotting functions—which usually expect 1-D vectors, not 2-D columns.
+Convert forecasts back to real-world units
+We use the same scaler that was fitted on the training data to run an inverse transform, turning “0.23” back into “2 units”, for example.
+We apply the identical inverse transform to y_test so truth and forecast are on the same scale.
+Copied code
+to clipboard
+123456
+# ------------------------------------------------------------------
+# 4. Inverse-scale to get real sales units
+#    (scaler was fit on the training slice earlier)
+# ------------------------------------------------------------------
+y_pred = scaler.inverse_transform(y_pred_scaled.reshape(-1, 1)).flatten()
+y_true = scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
+Visualise results
+A quick line plot of black (actual) vs. blue (forecast) shows where the model nails flat days or misses spikes.
+From here you can add MAE/RMSE numbers or zoom-in on dates with large errors.
+Copied code
+to clipboard
+123456789101112
+# ------------------------------------------------------------------
+# 5. Plot actual vs. forecast
+# ------------------------------------------------------------------
+plt.figure(figsize=(12,4))
+plt.plot(y_true, label="Actual sales", linewidth=2)
+plt.plot(y_pred, label="LSTM forecast", linewidth=2, alpha=0.8)
+plt.title("LSTM – Actual vs. Predicted")
+plt.xlabel("Test time step")
+plt.ylabel("Unit sales")
+plt.legend()
+
+notion image
+The blue LSTM forecast hugs a flat band near ≈ 400 units while the black line (actual sales) swings between 0 and ≈ 800. The net barely reacts to peaks or dips, so MAE is dominated by the gap on every spike. We should try adding covariates, as right now we only use past number of sales, and tune LSTM parameters. 
+ 
+💡
+Try it yourself! Make the LSTM Smarter
+The current model struggles to predict demand spikes because it only sees past sales. Your mission: give it more context and more power.
+Objective
+Improve the LSTM’s ability to anticipate high-demand days by:
+Adding new input features (covariates)
+Tuning key parameters like history window and hidden units
+Step 1: Add Covariates
+Add features that may help the model detect when a spike is coming. Start with:
+Calendar: day_of_week, is_weekend, month, week_of_year
+is_holiday: from holiday_events.csv
+Lag / rolling stats
+📌 Update your training data to include these features. Make sure your LSTM input shape changes accordingly.
+Step 2: Tune LSTM Parameters
+Modify the architecture and training settings:
+Input window size: Try 30, 60, or 90 time steps
+Model capacity: Increase to 128 units or stack 2 LSTM layers
+Loss function: Swap MAE for a quantile loss or Poisson loss (if supported)
+Stack more LSTM layers
+💡 Tip: Focus on whether the model starts reacting to spikes more accurately. Even partial success is progress!
+ 
+Solution
+Copied code
+ to clipboard
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697
+import pandas as pd, numpy as np, matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_absolute_error
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import LSTM, Dropout, Dense
+from tensorflow.keras.losses import Huber        # smoother than MAE
+
+# ------------------------------------------------------------
+# 0. Merge raw sales with covariates
+# ------------------------------------------------------------
+
+notion image
+We can see it improved significantly.
+💡
+Exercise
+For the same store, but different item (103665) and follow the same steps.
+To sum things up!
+In this lesson, we explored the basics of Neural Networks (NNs), Recurrent Neural Networks (RNNs), and LSTMs, and applied LSTMs to time-series forecasting. You most probably asking yourself if there is a better way to compare the models performance other than looking at many time-series plots. Absolutely! During the next week, we will discuss the model evaluation and typical metrics used in evaluation of time-series models. Till then you have time to train the models you learnt on dataset of your project for this unit.
