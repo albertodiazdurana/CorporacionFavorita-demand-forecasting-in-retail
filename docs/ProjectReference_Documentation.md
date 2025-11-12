@@ -1,4 +1,4 @@
-Case Study: Demand forecasting in retail
+# Case Study: Demand forecasting in retail
 
 Throughout this course we’ll work with a real retail dataset, step-by-step, to master time-series methods. Your end goal: build models that reliably predict how many units of each product will sell in the days and weeks ahead.
 Why retailers lean on time-series forecasting
@@ -27,7 +27,7 @@ Take-away: Retail sales rarely move at random; they follow patterns tied to time
 In this unit, we’ll be working with a real-world dataset: the Corporación Favorita Grocery Sales Forecasting dataset, originally shared on Kaggle: https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/data It contains daily sales records from dozens of grocery stores across Ecuador over several years.
 Our main goal will be to predict future sales of products in these stores. As you’ve just learned, accurate forecasts are essential for retailers: they help optimize stock levels, avoid running out of popular items, reduce waste, and make smarter decisions around pricing and promotions.
 
-From Kaggle: 
+# From Kaggle: 
 
 Corporación Favorita Grocery Sales Forecasting
 
@@ -111,18 +111,18 @@ kaggle competitions download -c favorita-grocery-sales-forecasting
 
 Project Overview — What You’ll Build Across the 4-Week Course
 For the next month you’ll work on one end-to-end forecasting project, adding a new layer each week. By the final session you will have produced:
-Exploratory Data Analysis (EDA)
-Clear visuals and numeric summaries that reveal trends, seasonality, promotions, holidays, and outliers in the Favorita dataset.
-Data Preparation Pipeline
-Gap-filled calendars, engineered calendar features, lag variables, and any required transformations—ready for model input.
-Store-Item Forecasts
-A machine-learning model that predicts daily demand for every product in every store in the province of Guayas.
-Target forecast horizon: January – March 2014 (inclusive).
-This week we’ll use the full dataset; we’ll time-slice later when we train the model.
-Lightweight Web App
-A simple front-end (think “single page + endpoint”) where Guayas demand planners can select a product-store pair and retrieve your forecast.
-Live Demo & Video Walk-through
-You’ll present the key findings, show the app, and share a short recording for review.
+- Exploratory Data Analysis (EDA)
+- Clear visuals and numeric summaries that reveal trends, seasonality, promotions, holidays, and outliers in the Favorita dataset.
+- Data Preparation Pipeline
+- Gap-filled calendars, engineered calendar features, lag variables, and any required transformations—ready for model input.
+- Store-Item Forecasts
+- A machine-learning model that predicts daily demand for every product in every store in the province of Guayas.
+- Target forecast horizon: January – March 2014 (inclusive).
+- This week we’ll use the full dataset; we’ll time-slice later when we train the model.
+- Lightweight Web App
+- A simple front-end (think “single page + endpoint”) where Guayas demand planners can select a product-store pair and retrieve your forecast.
+- Live Demo & Video Walk-through
+- You’ll present the key findings, show the app, and share a short recording for review.
 Each week’s notebook builds on the previous one, so keep your code clean and commit often. By Week 4 you’ll have a portfolio-ready, fully reproducible demand-forecasting solution.
  
 ### Week 1 — Checklist & Roadmap
