@@ -232,7 +232,28 @@ Data prep, feature engineering, model training, plots, metrics.
 (Optional) LSTM section.
 Push the notebook to your GitHub repo by the end of the week.
  
-### Week 3:**
+### Week 3:**Course project: Tasks for the Third Week**
+
+You now know how to search for the best hyperparameters, evaluate models and how to track experiments. Let’s put that into practice with the Corporación Favorita project.
+Week 3 Goals
+We’ll stay in your existing Colab notebook (as last week’s project) and move through these steps:
+Evaluate last week’s XGBoost baseline with real numbers (such as MAE, RMSE, Bias, MAD, rMAD, MAPE).
+Set up MLflow. Set an experiment and a run that will store the results of the model that we created last week and evaluated above. Log a first run (baseline XGB): params, metrics, and a forecast plot.
+Tune XGBoost (find the best set of hyperparameters), retrain with the best config, evaluate again, and log a second run.
+(Optional bonus) Do the same for the LSTM model and then tune it. Log results for baseline + tuned.
+Save your  Preprocessing Artifacts (Scaler + Feature Columns) for next week.
+Version your work: push the updated notebook to GitHub.
+☝🏼
+Quick Tip for Sprint 3
+If Colab or Jupyter is running super slow or even crashes, it’s usually because your grid search has too many combinations—it can take ages to finish!
+Here’s what you can do:
+Be patient and let it run (perfect time to hit the gym, play guitar, or do something fun).
+Or speed things up by using fewer parameters in your grid search so it runs fewer combinations.
+ 
+Note: Earlier during the lessons we logged every hyperparameter combo to MLflow so we could pick a winner in the UI. For this project you don’t need that. Log just two runs:
+Baseline model (before tuning).
+Best model after tuning (the grid/RandomizedSearchCV winner).
+You can adapt this week’s code by moving the MLflow logging outside the search loop and only logging the final chosen config. 
 
 ### Week 4:**
 
