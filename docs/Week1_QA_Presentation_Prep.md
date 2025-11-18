@@ -708,7 +708,7 @@ Reproducibility matters for:
 
 ---
 
-### Q17: How did you handle the onpromotion missing values (16%), and why fill with False?
+### Q17: How did you handle the onpromotion missing values (18.57%), and why fill with False?
 
 **Technical Answer:**
 **Missing data pattern:**
@@ -1840,20 +1840,20 @@ df['unit_sales'] = df['unit_sales'].clip(lower=0)
 **Technical Answer:**
 **Week 1 findings → Week 2 actions:**
 
-| **Finding** | **Week 2 Feature Engineering** | **Priority** |
-|-------------|--------------------------------|--------------|
-| Strong autocorrelation (0.32-0.63 at lags 1-90) | Create lag features: 1, 7, 14, 30 days | **MUST** |
-| Lag 14 highest (r=0.63) | Prioritize lag 14 (bi-weekly shopping cycle) | **MUST** |
-| Weekend +33.9% lift | Already have `is_weekend` flag ✓ | Complete |
-| Payday +10.7% lift (Days 1, 15) | Create `is_payday_window` flag | **SHOULD** |
-| December +30.4% seasonality | Already have `month` feature ✓, test Fourier terms | **COULD** |
-| Promotion +74% lift | Already have `onpromotion` flag ✓, add promotion history | **SHOULD** |
-| Promo × Holiday -16.1% synergy | Create interaction term `onpromotion × is_holiday` | **COULD** |
-| Oil -0.55 correlation | Merge oil.csv, create daily + 3 lags | **SHOULD** |
-| 99.1% sparsity | Create `days_since_last_sale` feature | **COULD** |
-| 4.25x store performance gap | Create `store_avg_sales`, `cluster_avg_sales` | **SHOULD** |
-| 49% universal items | Create `item_avg_sales`, `item_frequency` | **SHOULD** |
-| Pareto 34/80 | Create `item_velocity_tier` (fast/medium/slow) | **COULD** |
+| **Finding**                                     | **Week 2 Feature Engineering**                           | **Priority** |
+| ----------------------------------------------- | -------------------------------------------------------- | ------------ |
+| Strong autocorrelation (0.32-0.63 at lags 1-90) | Create lag features: 1, 7, 14, 30 days                   | **MUST**     |
+| Lag 14 highest (r=0.63)                         | Prioritize lag 14 (bi-weekly shopping cycle)             | **MUST**     |
+| Weekend +33.9% lift                             | Already have `is_weekend` flag ✓                         | Complete     |
+| Payday +10.7% lift (Days 1, 15)                 | Create `is_payday_window` flag                           | **SHOULD**   |
+| December +30.4% seasonality                     | Already have `month` feature ✓, test Fourier terms       | **COULD**    |
+| Promotion +74% lift                             | Already have `onpromotion` flag ✓, add promotion history | **SHOULD**   |
+| Promo × Holiday -16.1% synergy                  | Create interaction term `onpromotion × is_holiday`       | **COULD**    |
+| Oil -0.55 correlation                           | Merge oil.csv, create daily + 3 lags                     | **SHOULD**   |
+| 99.1% sparsity                                  | Create `days_since_last_sale` feature                    | **COULD**    |
+| 4.25x store performance gap                     | Create `store_avg_sales`, `cluster_avg_sales`            | **SHOULD**   |
+| 49% universal items                             | Create `item_avg_sales`, `item_frequency`                | **SHOULD**   |
+| Pareto 34/80                                    | Create `item_velocity_tier` (fast/medium/slow)           | **COULD**    |
 
 **Feature priority framework:**
 
