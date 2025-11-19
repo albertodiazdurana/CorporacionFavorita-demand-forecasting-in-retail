@@ -1,4 +1,6 @@
-
+# MLflow
+mlruns/
+mlartifacts/
 # Project specific
 @"
 # Data files
