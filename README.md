@@ -26,7 +26,7 @@ Forecast daily unit sales for Corporación Favorita stores in the Guayas region 
 
 ## Web Application
 
-🚀 **[Interactive Forecasting App](https://github.com/albertodiazdurana/Demand-forecasting-in-retail-app)** - Streamlit deployment (separate repository)
+🚀 **[Live Forecasting App 🚀](https://github.com/albertodiazdurana/Demand-forecasting-in-retail-app)** - Streamlit deployment (separate repository)
 
 Live demo of the production XGBoost model with interactive forecasting capabilities. Users can select stores, products, and generate single-day or multi-day forecasts with visualizations.
 
