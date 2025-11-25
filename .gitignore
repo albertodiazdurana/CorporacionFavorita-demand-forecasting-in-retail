@@ -259,4 +259,7 @@ outputs/figures/features/w*_d*_*.png
 outputs/figures/models/w*_d*_*.png
 
 # Keep final visualizations
-!outputs/figures/final/fig*.pngmlflow_results/
+!outputs/figures/final/fig*.png
+
+# MLflow experiment tracking
+mlflow_results/
