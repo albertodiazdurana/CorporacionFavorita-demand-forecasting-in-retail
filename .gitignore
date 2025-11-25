@@ -1,6 +1,7 @@
-# MLflow
+# MLflow - ignore both old and new tracking directories
 mlruns/
 mlartifacts/
+mlflow_results/
 # Project specific
 @"
 # Data files
@@ -260,6 +261,3 @@ outputs/figures/models/w*_d*_*.png
 
 # Keep final visualizations
 !outputs/figures/final/fig*.png
-
-# MLflow experiment tracking
-mlflow_results/
