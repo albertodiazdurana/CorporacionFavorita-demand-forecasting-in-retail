@@ -295,3 +295,31 @@ See `docs/` for methodology documentation.
 
 MIT License - Academic project using Kaggle competition data under competition terms of use.
 EOF
+---
+
+## MLflow Experiment Tracking
+
+This project includes comprehensive experiment tracking with **16 MLflow experiments** documenting the full modeling journey.
+
+### Experiments Summary
+
+| Phase | Experiments | Key Findings |
+|-------|-------------|--------------|
+| Week 3 Baseline | 2 | Initial XGBoost performance |
+| Week 3 Tuning | 4 | Hyperparameter optimization |
+| Week 3 Ablation | 6 | Feature reduction (+4.5% RMSE gain) |
+| Week 3 LSTM | 2 | Neural network comparison |
+| Full Pipeline | 2 | Production scale validation |
+
+### View Experiments
+```bash
+./scripts/start_mlflow_ui.sh
+# Open http://127.0.0.1:5000
+```
+
+### Tracked Metrics
+- RMSE, MAE, MAPE, Bias
+- Training time, samples
+- Feature importance rankings
+- Model hyperparameters
+
