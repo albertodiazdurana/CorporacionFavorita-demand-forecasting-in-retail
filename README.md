@@ -1,8 +1,17 @@
+cat > ~/Demand-forecasting-in-retail/README.md << 'EOF'
 # Corporación Favorita Grocery Sales Forecasting
 
 **Time Series Analysis & Forecasting Project**
 
 A comprehensive machine learning project analyzing Ecuadorian grocery sales data to develop forecasting models for retail inventory optimization. This project implements advanced feature engineering, multi-method outlier detection, and temporal pattern analysis using XGBoost and LSTM approaches.
+
+---
+
+## Live Demo
+
+🚀 **[Launch Forecasting App](https://demand-forecasting-in-retail-app.streamlit.app)** - Interactive demand forecasting with store/item selection
+
+**App Repository:** [Demand-forecasting-in-retail-app](https://github.com/albertodiazdurana/Demand-forecasting-in-retail-app)
 
 ---
 
@@ -15,309 +24,263 @@ Forecast daily unit sales for Corporación Favorita stores in the Guayas region 
 
 ### Business Context
 - **Domain**: Retail time series forecasting
-- **Scope**: Guayas region, top-3 product families (GROCERY I, BEVERAGES, CLEANING)
-- **Dataset**: 300,896 transactions across 54 stores, 683 items, 91 days
-- **Evaluation Metric**: NWRMSLE (Normalized Weighted Root Mean Squared Logarithmic Error)
+- **Scope**: Guayas region, all product families
+- **Dataset**: 4.8M transactions across 10 stores, 2,638 items, 183 days
+- **Evaluation Metric**: RMSE (Root Mean Squared Error)
 
-### Success Criteria
-- **Quantitative**: NWRMSLE improvement over naive baseline, forecast accuracy within business tolerance
-- **Qualitative**: Interpretable models with actionable insights for inventory planners
-- **Technical**: Reproducible pipeline with end-to-end execution
+### Production Model Performance
 
-## Web Application
-
-🚀 **[Live Forecasting App 🚀](https://github.com/albertodiazdurana/Demand-forecasting-in-retail-app)** - Streamlit deployment (separate repository)
-
-Live demo of the production XGBoost model with interactive forecasting capabilities. Users can select stores, products, and generate single-day or multi-day forecasts with visualizations.
-
-**Repository**: [Demand-forecasting-in-retail-app](https://github.com/albertodiazdurana/Demand-forecasting-in-retail-app)
+| Metric | Value |
+|--------|-------|
+| Model | XGBoost |
+| RMSE | 6.4008 |
+| MAE | 1.7480 |
+| Training Samples | 3,798,720 |
+| Test Samples | 817,780 |
+| Features | 33 |
 
 ---
 
-## Current Status
+## Project Status: COMPLETE ✓
 
-**Phase**: Week 3 - Modeling & Analysis (IN PROGRESS)
+### Phase Summary
 
-### Completed Phases
-
-#### Week 1: Exploratory Data Analysis
-- **Key Finding**: 99.1% data sparsity is normal retail reality (0.9% of store-item-date combinations have sales)
-- **Business Insights**:
-  - 33.9% weekend sales lift over weekdays
-  - Strong autocorrelation across all lag intervals
-  - Pareto distribution: 34% of items generate 80% of sales
-- **Technical Accomplishments**:
-  - Three-method outlier detection (IQR, Z-score, Isolation Forest)
-  - Complete temporal pattern analysis
-  - Strategic decision to maintain sparse format
-
-**Notebooks**: `w01_d01` through `w01_d05` (5 notebooks)  
-**Documentation**: `Week1_ProjectPlan_v2_Expanded.md`, `Week1_to_Week2_Handoff.md`
-
-#### Week 2: Feature Engineering
-- **Features Engineered**: 29 features across 5 categories
-- **Quality Status**: All validated (no data leakage, temporal order preserved)
-- **Key Decisions**:
-  - DEC-011: Keep NaN in lag features (tree models handle natively)
-  - DEC-012: Include oil features despite weak linear correlation (tree models may find non-linear patterns)
-
-**Feature Categories**:
-1. **Temporal Features (10)**: Lags (4), rolling statistics (6)
-2. **Oil Features (6)**: Price levels, lags, momentum derivatives
-3. **Aggregation Features (11)**: Store, cluster, and item-level statistics
-4. **Promotion Features (2)**: Interaction terms with item/cluster averages
-
-**Notebooks**: `w02_d01` through `w02_d05` (5 notebooks)  
-**Documentation**: `Week2_ProjectPlan_v2_Expanded.md`, `Week2_to_Week3_Handoff.md`
-
-#### Week 3: Modeling & Analysis (Current)
-**Planned Activities**:
-- XGBoost baseline training and comprehensive evaluation
-- MLflow experiment tracking setup
-- Hyperparameter tuning with GridSearchCV/RandomizedSearchCV
-- Feature importance validation (permutation, SHAP, ablation studies)
-- Optional LSTM model comparison
-- Preprocessing artifacts export for deployment
-
-**Documentation**: `Week3_ProjectPlan_v1.md`
-
----
-
-## Repository Structure
-
-```
-retail_demand_analysis/
-├── notebooks/
-│   ├── w01_d01_SETUP_data_inventory.ipynb        # Environment setup, data inventory
-│   ├── w01_d02_EDA_data_loading_filtering.ipynb  # Data loading, Guayas filtering
-│   ├── w01_d03_EDA_quality_preprocessing.ipynb   # Quality analysis, outlier detection
-│   ├── w01_d04_EDA_temporal_patterns.ipynb       # Time series patterns, seasonality
-│   ├── w01_d05_EDA_context_export.ipynb          # Store/product analysis, final export
-│   ├── w02_d01_FE_lags.ipynb                     # Lag features (1/7/14/30 days)
-│   ├── w02_d02_FE_rolling.ipynb                  # Rolling statistics (7/14/30 windows)
-│   ├── w02_d03_FE_oil.ipynb                      # Oil price features and derivatives
-│   ├── w02_d04_FE_aggregations.ipynb             # Store/cluster/item aggregations
-│   └── w02_d05_FE_final.ipynb                    # Promotion interactions, final dataset
-├── data/
-│   ├── raw/                                       # Original Kaggle CSVs
-│   ├── processed/                                 # Filtered, cleaned datasets
-│   └── results/                                   # Model outputs, forecasts
-├── outputs/
-│   └── figures/                                   # Visualizations by phase
-│       ├── eda/
-│       ├── features/
-│       └── models/
-├── docs/
-│   ├── plans/                                     # Weekly project plans
-│   │   ├── Week1_ProjectPlan_v2_Expanded.md
-│   │   ├── Week2_ProjectPlan_v2_Expanded.md
-│   │   └── Week3_ProjectPlan_v1.md
-│   ├── decisions/                                 # Decision log
-│   │   ├── DEC-011_Lag_NaN_Strategy.md
-│   │   └── DEC-012_Oil_Features_Inclusion.md
-│   └── handoffs/                                  # Phase handoff documents
-│       ├── Week1_to_Week2_Handoff.md
-│       └── Week2_to_Week3_Handoff.md
-└── README.md
-```
-
----
-
-## Key Technical Decisions
-
-### DEC-011: Lag NaN Strategy
-**Decision**: Keep NaN values in lag features instead of imputing  
-**Rationale**: Tree-based models (XGBoost) handle missing values natively. Imputation could introduce bias by assuming zero demand when no historical data exists.  
-**Impact**: 27K-40K NaN per lag feature (9-13% of dataset), preserved for model training
-
-### DEC-012: Oil Features Inclusion
-**Decision**: Include oil price features despite weak linear correlation (r=+0.01)  
-**Rationale**:
-- Tree models can capture non-linear relationships
-- Oil prices may interact with other features (store type, product category)
-- Multiple time scales (lag7/14/30, change7/14) capture different economic dynamics
-- Feature importance analysis in Week 3 will validate utility
-
----
-
-## Dataset Specifications
-
-### Source Data
-- **Origin**: [Kaggle Competition - Corporación Favorita Grocery Sales Forecasting](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/data)
-- **Competition Files**: train.csv, stores.csv, items.csv, oil.csv, holidays_events.csv, transactions.csv
-- **Region Filter**: Guayas (Ecuador's largest commercial region)
-- **Product Filter**: Top-3 families by item count (58.4% of all items)
-- **Time Period**: January 1 - March 31, 2014 (91 days)
-
-### Final Feature-Engineered Dataset
-- **File**: `w02_d05_FE_final.pkl`
-- **Dimensions**: 300,896 rows × 57 columns
-- **Size**: 110.4 MB
-- **Sparsity**: 99.1% (normal retail characteristic)
-- **Features**: 29 engineered + 28 original/derived
-
-### Feature Categories Breakdown
-
-| Category               | Count | Examples                                                   |
-| ---------------------- | ----- | ---------------------------------------------------------- |
-| Temporal (Lags)        | 4     | unit_sales_lag1, lag7, lag14, lag30                        |
-| Temporal (Rolling)     | 6     | unit_sales_7d_avg, 14d_std, 30d_avg                        |
-| Oil Economics          | 6     | oil_price, oil_price_lag7, oil_price_change7               |
-| Store Aggregations     | 3     | store_avg_sales, store_median_sales, store_std_sales       |
-| Cluster Aggregations   | 3     | cluster_avg_sales, cluster_median_sales, cluster_std_sales |
-| Item Aggregations      | 5     | item_avg_sales, item_total_sales, item_transaction_count   |
-| Promotion Interactions | 2     | promo_item_avg_interaction, promo_cluster_interaction      |
-
----
-
-## Quick Start
-
-### Data Download
-
-Download the competition data from Kaggle:
-1. Visit the [competition data page](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/data)
-2. Download all CSV files to `data/raw/` directory
-3. Required files: train.csv, stores.csv, items.csv, oil.csv, holidays_events.csv, transactions.csv
-
-### Environment Setup
-
-```bash
-# Clone repository
-git clone https://github.com/albertodiazdurana/retail_demand_analysis.git
-cd retail_demand_analysis
-
-# Create environment (requires Python 3.8+)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run base environment setup
-python setup_base_environment.py
-```
-
-### Notebook Execution Order
-
-**Week 1 - EDA**:
-1. `w01_d01_SETUP_data_inventory.ipynb` - Environment validation
-2. `w01_d02_EDA_data_loading_filtering.ipynb` - Data loading and filtering
-3. `w01_d03_EDA_quality_preprocessing.ipynb` - Quality analysis
-4. `w01_d04_EDA_temporal_patterns.ipynb` - Temporal pattern discovery
-5. `w01_d05_EDA_context_export.ipynb` - Business context analysis
-
-**Week 2 - Feature Engineering**:
-1. `w02_d01_FE_lags.ipynb` - Lag feature creation
-2. `w02_d02_FE_rolling.ipynb` - Rolling statistics
-3. `w02_d03_FE_oil.ipynb` - Oil price features
-4. `w02_d04_FE_aggregations.ipynb` - Aggregation features
-5. `w02_d05_FE_final.ipynb` - Promotion features and final dataset
-
-**Week 3 - Modeling** (In Progress):
-- TBD: Baseline, tuning, validation notebooks
+| Week | Focus | Status |
+|------|-------|--------|
+| Week 1 | Exploratory Data Analysis | ✅ Complete |
+| Week 2 | Feature Engineering | ✅ Complete |
+| Week 3 | Modeling & Analysis | ✅ Complete |
+| Week 4 | Production & Deployment | ✅ Complete |
 
 ---
 
 ## Key Findings
 
+### Model Comparison: Scale Reverses Advantage
+
+| Dataset | XGBoost | LSTM | Winner |
+|---------|---------|------|--------|
+| Sample (300K) | 6.4860 | 6.2552 | LSTM (-4.5%) |
+| Full (4.8M) | 6.4008 | ~9.37 | XGBoost (+46%) |
+
+**Key Insight:** LSTM advantage on small sample disappeared at production scale. Tree models handle large tabular datasets better.
+
+### Top 5 Features (Permutation Importance)
+
+1. **unit_sales_7d_avg** (6.43) - 7-day rolling average
+2. **unit_sales_lag1_7d_corr** (1.96) - Lag-rolling correlation
+3. **unit_sales_lag1** (1.64) - Previous day sales
+4. **item_avg_sales** (0.30) - Item-level average
+5. **unit_sales_14d_avg** (0.23) - 14-day rolling average
+
 ### Business Insights
 
-**Sales Patterns**:
-- **Weekend Effect**: 33.9% higher sales on weekends vs weekdays
-- **Autocorrelation**: Strong persistence (lag7: r=0.40, lag14: r=0.32)
-- **Product Distribution**: Classic Pareto (34% of items generate 80% of sales)
-
-**Promotion Impact**:
-- **Coverage**: Only 4.6% of transactions promoted
-- **Lift**: +74% mean sales increase, +66.7% median increase
-- **Category Variation**: CLEANING (+71.7%), GROCERY I (+70.9%), BEVERAGES (+63.3%)
-
-**Sparsity Reality**:
-- **Finding**: 99.1% sparsity in store-item-date combinations
-- **Interpretation**: Normal retail behavior (most items don't sell daily at each store)
-- **Strategy**: Maintain sparse format, avoid expanding to dense matrix
-
-### Technical Insights
-
-**Feature Engineering**:
-- **Lag Correlations**: lag7 strongest (0.40), capturing weekly seasonality
-- **Oil Correlation Shift**: Aggregate level (r=-0.55) vs granular level (r=+0.01)
-- **Rolling Windows**: 7d/14d/30d capture different smoothing levels
-- **Promotion Interactions**: 2.4x better correlation than raw promotion flag
-
-**Data Quality**:
-- **Negative Sales**: Returns/adjustments clipped to zero for forecasting
-- **Missing Dates**: Complete daily calendar filled (true zeros)
-- **Outliers**: Multi-method detection (IQR + Z-score + Isolation Forest)
+- **Weekend Effect**: 33.9% higher sales on weekends
+- **Autocorrelation**: Strong weekly pattern (lag7: r=0.40)
+- **Pareto Distribution**: 34% of items generate 80% of sales
+- **Sparsity**: 99.1% is normal retail behavior (not data quality issue)
 
 ---
 
-## Methodology & Standards
+## Technical Decisions
 
-### Time Series Principles
-- **Temporal Order**: Maintained throughout (no row shuffling)
-- **No Data Leakage**: Features use only past information
-- **Validation Strategy**: Time-series split (train: Jan-Feb, test: March)
-- **Complete Calendar**: No gaps in date index per store-item
-
-### Code Standards
-- **File Naming**: `wYY_dXX_PHASE_description` format
-- **Notebook Structure**: 5-6 sections, ~400-500 lines each
-- **Output Requirements**: Every cell shows visible results (shapes, metrics, correlations)
-- **Documentation**: Markdown cells precede all code sections
-
-### Evaluation Approach
-- **Primary Metric**: NWRMSLE (perishable items weighted 1.25x)
-- **Cross-Validation**: Expanding window (respects temporal order)
-- **Interpretability**: SHAP values, permutation importance, ablation studies
+| ID | Decision | Rationale | Impact |
+|----|----------|-----------|--------|
+| DEC-011 | Keep NaN in lag features | XGBoost handles natively | Preserved 9-13% NaN |
+| DEC-012 | Include oil features | Tree models find non-linear patterns | Tested in ablation |
+| DEC-013 | 7-day train/test gap | Prevents lag feature leakage | Critical for validity |
+| DEC-014 | 33 optimized features | Ablation showed improvement | +4.5% RMSE gain |
+| DEC-015 | Reject full 2013 training | Seasonal mismatch | Avoided +106% worse RMSE |
+| DEC-016 | Q4+Q1 temporal consistency | Seasonal alignment | Better than more data |
+| DEC-017 | XGBoost over LSTM at scale | LSTM failed to converge | Production model selected |
 
 ---
 
-## Next Steps (Week 3)
-
-1. **Baseline Model**: XGBoost with default parameters, comprehensive evaluation
-2. **MLflow Setup**: Experiment tracking for reproducibility
-3. **Hyperparameter Tuning**: GridSearchCV/RandomizedSearchCV
-4. **Feature Validation**: Permutation importance, SHAP, ablation studies
-5. **LSTM Comparison**: Optional deep learning approach
-6. **Artifacts Export**: Scaler, feature columns, best model for deployment
+## Repository Structure
+```
+Demand-forecasting-in-retail/
+├── notebooks/
+│   ├── w01_d01 through w01_d05     # Week 1: EDA (5 notebooks)
+│   ├── w02_d01 through w02_d05     # Week 2: Feature Engineering (5 notebooks)
+│   ├── w03_d01 through w03_d05     # Week 3: Modeling (5 notebooks)
+│   ├── FULL_01_data_to_features.ipynb   # Production pipeline: Features
+│   └── FULL_02_train_final_model.ipynb  # Production pipeline: Training
+├── data/
+│   ├── raw/                        # Original Kaggle CSVs
+│   └── processed/                  # Feature-engineered datasets
+│       ├── full_featured_data.pkl  # 4.8M rows, 33 features (1.3 GB)
+│       └── sample_forecast_data.pkl # App sample (1.1 MB)
+├── artifacts/                      # Production model files
+│   ├── xgboost_model_full.pkl      # Trained model (2.1 MB)
+│   ├── scaler_full.pkl             # StandardScaler
+│   ├── feature_columns.json        # 33 feature names
+│   └── model_config_full.json      # Metrics and hyperparameters
+├── outputs/figures/                # Visualizations
+│   ├── eda/
+│   ├── features/
+│   ├── models/
+│   └── full_pipeline/
+├── config/
+│   └── mlflow_config.py            # Centralized MLflow configuration
+├── scripts/
+│   ├── start_mlflow_ui.sh          # MLflow UI launcher
+│   └── export_sample_data.py       # Sample data for Streamlit app
+├── docs/
+│   ├── decisions/                  # DEC-011 through DEC-017
+│   └── checkpoints/                # Daily progress documentation
+├── mlflow_results/                 # Experiment tracking (not in git)
+├── README.md
+├── README_MLFLOW.md                # MLflow quick reference
+├── requirements.txt
+└── FULL_02_checkpoint.md           # Production pipeline summary
+```
 
 ---
 
-## Documentation References
+## Weekly Accomplishments
 
-### Project Plans
-- `Week1_ProjectPlan_v2_Expanded.md` - EDA phase planning
-- `Week2_ProjectPlan_v2_Expanded.md` - Feature engineering roadmap
-- `Week3_ProjectPlan_v1.md` - Modeling strategy (current)
+### Week 1: Exploratory Data Analysis
+- Three-method outlier detection (IQR, Z-score, Isolation Forest)
+- Complete temporal pattern analysis
+- Discovered 99.1% sparsity is normal retail behavior
+- **Notebooks**: w01_d01 through w01_d05
 
-### Handoff Documents
-- `Week1_to_Week2_Handoff.md` - EDA to FE transition
-- `Week2_to_Week3_Handoff.md` - FE to Modeling transition
+### Week 2: Feature Engineering
+- Created 45 features across 5 categories (reduced to 33 after ablation)
+- Lag features, rolling statistics, calendar, holidays, aggregations
+- **Output**: w02_d05_FE_final.pkl (300K sample)
+- **Notebooks**: w02_d01 through w02_d05
 
-### Checkpoint Files
-- `w01_d03_checkpoint.md` through `w01_d05_checkpoint.md` - Week 1 progress
-- `w02_d01_checkpoint.md` through `w02_d05_checkpoint.md` - Week 2 progress
+### Week 3: Modeling & Analysis
+- XGBoost baseline and hyperparameter tuning
+- LSTM model comparison (won on sample data)
+- MLflow experiment tracking (6 experiments)
+- Feature importance validation (permutation, SHAP, ablation)
+- **Best Sample Model**: LSTM (RMSE 6.2552)
+- **Notebooks**: w03_d01 through w03_d05
 
-### Decision Logs
-- `DEC-011_Lag_NaN_Strategy.md` - Handling missing lag values
-- `DEC-012_Oil_Features_Inclusion.md` - Oil price feature justification
+### Week 4: Production & Deployment
+- Full pipeline on 4.8M rows (FULL_01 + FULL_02)
+- Discovered LSTM doesn't scale (DEC-017)
+- Production model: XGBoost (RMSE 6.4008)
+- Streamlit app deployed to cloud
+- Interactive forecasting with store/item selection
 
 ---
 
-## Dependencies
+## Production Pipeline
 
-### Core Libraries
-- **Data Processing**: pandas, numpy, dask
-- **Visualization**: matplotlib, seaborn
-- **Modeling**: xgboost, tensorflow/keras (LSTM)
-- **Experiment Tracking**: mlflow
-- **Feature Engineering**: scikit-learn
+### FULL_01: Data to Features
+- **Input**: Raw Kaggle CSVs
+- **Output**: full_featured_data.pkl (4.8M rows × 42 columns, 1.3 GB)
+- **Processing Time**: ~15 minutes
+- **Key Step**: Vectorized feature engineering for 33 features
+
+### FULL_02: Train Final Model
+- **Input**: full_featured_data.pkl
+- **Split**: Q4 2013 + Q1 2014 training, March 2014 test, 7-day gap
+- **Models Tested**: XGBoost (✓), LSTM (failed to converge)
+- **Output**: Production artifacts in /artifacts
+- **Training Time**: 92 seconds (XGBoost)
 
 ### Environment
-- Python 3.8+
-- Jupyter Notebook/Lab
-- See `requirements.txt` for complete dependency list
+- **OS**: WSL2 Ubuntu 22.04
+- **CPU**: Intel Core i7-10875H @ 2.30GHz
+- **GPU**: NVIDIA Quadro T1000 (4GB VRAM)
+- **Python**: 3.11
+- **Key Libraries**: TensorFlow 2.20.0, XGBoost 3.1.2, MLflow 3.6.0
+
+---
+
+## Quick Start
+
+### Prerequisites
+- Python 3.11+
+- ~16GB RAM for full pipeline
+- Kaggle account for data download
+
+### Setup
+```bash
+# Clone repository
+git clone https://github.com/albertodiazdurana/Demand-forecasting-in-retail.git
+cd Demand-forecasting-in-retail
+
+# Create environment
+python -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Download data from Kaggle
+# Place files in data/raw/: train.csv, stores.csv, items.csv, oil.csv, holidays_events.csv
+```
+
+### Run Production Pipeline
+```bash
+# Option 1: Run notebooks in Jupyter
+jupyter notebook notebooks/FULL_01_data_to_features.ipynb
+jupyter notebook notebooks/FULL_02_train_final_model.ipynb
+
+# Option 2: Use existing artifacts (skip training)
+# Artifacts already in /artifacts - ready for deployment
+```
+
+### View MLflow Experiments
+```bash
+./scripts/start_mlflow_ui.sh
+# Open http://127.0.0.1:5000
+```
+
+---
+
+## Dataset Specifications
+
+### Raw Data (Kaggle)
+- **train.csv**: 125M rows, 479 MB
+- **stores.csv**: Store metadata (54 stores)
+- **items.csv**: Item metadata (4,100 items)
+- **oil.csv**: Daily oil prices
+- **holidays_events.csv**: Ecuador holidays
+
+### Processed Data
+- **Full Pipeline**: 4,801,160 rows × 42 columns (Guayas, all families)
+- **Sample Pipeline**: 300,896 rows (Guayas, top-3 families)
+- **Date Range**: Oct 1, 2013 - Mar 31, 2014 (183 days)
+- **Stores**: 10 Guayas stores
+- **Items**: 2,638 unique items
+
+### Feature Categories (33 features)
+
+| Category | Count | Examples |
+|----------|-------|----------|
+| Temporal Lags | 4 | lag1, lag7, lag14, lag30 |
+| Rolling Stats | 4 | 7d_avg, 14d_avg, 30d_avg, lag1_7d_corr |
+| Calendar | 7 | year, month, day, dayofweek, weekend |
+| Holiday | 4 | is_holiday, holiday_proximity, days_to_next |
+| Promotion | 2 | onpromotion, promo_item_interaction |
+| Store/Item | 7 | store_avg, item_avg, cluster_avg, family_avg |
+| Derived | 5 | perishable, month_start, month_end, is_payday |
+
+---
+
+## Methodology
+
+This project follows the **Data Science Collaboration Methodology v1.1**, a structured framework I developed for systematic project execution with:
+- Weekly planning and daily checkpoints
+- Decision logging (DEC-XXX format)
+- Handoff documentation between phases
+- Progressive validation and traceability
+
+See `docs/` for methodology documentation.
+
+---
+
+## Acknowledgments
+
+- **Data Source**: [Kaggle Corporación Favorita Competition](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting)
+- **Course**: MasterSchool Time Series Forecasting
+- **Methodology**: Data Science Collaboration Framework v1.1
 
 ---
 
@@ -326,18 +289,9 @@ python setup_base_environment.py
 **Alberto Diaz Durana**  
 [GitHub](https://github.com/albertodiazdurana) | [LinkedIn](https://www.linkedin.com/in/albertodiazdurana/)
 
-MasterSchool's Program Project - Time Series Analysis & Forecasting
-
 ---
 
 ## License
 
-This project is part of academic coursework. Data sourced from [Kaggle's Corporación Favorita Grocery Sales Forecasting competition](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting) under Kaggle's competition terms of use.
-
----
-
-## Acknowledgments
-
-- **Data Source**: [Kaggle - Corporación Favorita Grocery Sales Forecasting Competition](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/data)
-- **Framework**: Data Science Collaboration Methodology
-- **Guidance**: Academic advisor and peer reviewers
+MIT License - Academic project using Kaggle competition data under competition terms of use.
+EOF
