@@ -1,4 +1,4 @@
-cat > ~/Demand-forecasting-in-retail/README.md << 'EOF'
+
 # Corporación Favorita Grocery Sales Forecasting
 
 **Time Series Analysis & Forecasting Project**
@@ -308,7 +308,6 @@ See `docs/` for methodology documentation.
 
 - **Data Source**: [Kaggle Corporación Favorita Competition](https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting)
 - **Course**: MasterSchool Time Series Forecasting
-- **Methodology**: Data Science Collaboration Framework v1.1
 
 ---
 
@@ -322,7 +321,6 @@ See `docs/` for methodology documentation.
 ## License
 
 MIT License - Academic project using Kaggle competition data under competition terms of use.
-EOF
 ---
 
 
