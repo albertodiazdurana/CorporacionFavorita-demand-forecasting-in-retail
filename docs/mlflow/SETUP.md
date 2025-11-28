@@ -32,7 +32,7 @@ setup_mlflow("my_experiment_name")
 ./scripts/start_mlflow_ui.sh
 ```
 
-**Option B: Manual command**
+**Option B: Manual command - works in PowerShell**
 ```bash
 cd /home/berto/Demand-forecasting-in-retail
 source .venv/bin/activate
