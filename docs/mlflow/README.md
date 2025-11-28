@@ -15,9 +15,14 @@ from config.mlflow_config import setup_mlflow
 setup_mlflow("your_experiment_name")
 ```
 
-### 2. Start MLflow UI
+### Starting the UI
 ```bash
+# Option 1: Use the script (easiest)
 ./scripts/start_mlflow_ui.sh
+
+# Option 2: Manual (works in PowerShell)
+source .venv/bin/activate
+mlflow ui --backend-store-uri file://$(pwd)/mlflow_results --port 5000
 ```
 
 ### 3. Open Browser
@@ -29,11 +34,11 @@ http://127.0.0.1:5000
 
 ## 📁 Files Created
 
-| File | Purpose |
-|------|---------|
-| [config/mlflow_config.py](../../config/mlflow_config.py) | Centralized MLflow configuration |
-| [scripts/start_mlflow_ui.sh](../../scripts/start_mlflow_ui.sh) | Easy MLflow UI startup |
-| [SETUP.md](SETUP.md) | Detailed setup guide |
+| File                                                           | Purpose                          |
+| -------------------------------------------------------------- | -------------------------------- |
+| [config/mlflow_config.py](../../config/mlflow_config.py)       | Centralized MLflow configuration |
+| [scripts/start_mlflow_ui.sh](../../scripts/start_mlflow_ui.sh) | Easy MLflow UI startup           |
+| [SETUP.md](SETUP.md)                                           | Detailed setup guide             |
 
 ---
 
@@ -70,16 +75,6 @@ with mlflow.start_run(run_name="xgboost_baseline"):
     mlflow.sklearn.log_model(model, "model")
 ```
 
-### Starting the UI
-```bash
-# Option 1: Use the script (easiest)
-./scripts/start_mlflow_ui.sh
-
-# Option 2: Manual (if you prefer)
-source .venv/bin/activate
-mlflow ui --backend-store-uri file://$(pwd)/mlflow_results --port 5000
-```
-
 ---
 
 ## 🐛 Troubleshooting
@@ -96,14 +91,6 @@ mlflow ui --backend-store-uri file://$(pwd)/mlflow_results --port 5000
 **Q: Port 5000 already in use**
 - Kill old instance: `pkill -f "mlflow ui"`
 - Or use different port: `./scripts/start_mlflow_ui.sh 5001`
-
----
-
-## 📚 Documentation
-
-- **Setup Guide:** [SETUP.md](SETUP.md)
-- **Migration Examples:** [MIGRATION_EXAMPLES.md](MIGRATION_EXAMPLES.md)
-- **Change Summary:** [CHANGES_SUMMARY.md](CHANGES_SUMMARY.md)
 
 ---
 

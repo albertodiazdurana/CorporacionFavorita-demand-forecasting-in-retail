@@ -6,20 +6,6 @@ All MLflow-related documentation is now centralized in this directory for easy a
 
 ---
 
-## 📋 Quick Links
-
-| I want to... | Go to... |
-|--------------|----------|
-| **Get started quickly** | [README.md](README.md) - 3-step setup |
-| **Navigate all docs** | [INDEX.md](INDEX.md) - Full navigation |
-| **Learn the full setup** | [SETUP.md](SETUP.md) - Comprehensive guide |
-| **Update a notebook** | [MIGRATION_EXAMPLES.md](MIGRATION_EXAMPLES.md) |
-| **Understand the changes** | [CHANGES_SUMMARY.md](CHANGES_SUMMARY.md) |
-| **Share with another Claude** | [MESSAGE_FOR_OTHER_CHAT.md](MESSAGE_FOR_OTHER_CHAT.md) |
-| **See visual summary** | [SUMMARY.txt](SUMMARY.txt) |
-
----
-
 ## ⚡ Essential Info
 
 ### In Your Notebooks
@@ -28,9 +14,14 @@ from config.mlflow_config import setup_mlflow
 setup_mlflow("experiment_name")
 ```
 
-### Start MLflow UI
+### Starting the UI
 ```bash
+# Option 1: Use the script (easiest)
 ./scripts/start_mlflow_ui.sh
+
+# Option 2: Manual (works in PowerShell)
+source .venv/bin/activate
+mlflow ui --backend-store-uri file://$(pwd)/mlflow_results --port 5000
 ```
 
 ### Access UI
