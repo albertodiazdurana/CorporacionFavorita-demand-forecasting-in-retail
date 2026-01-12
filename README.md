@@ -28,16 +28,41 @@ Forecast daily unit sales for Corporación Favorita stores in the Guayas region 
 - **Dataset**: 4.8M transactions across 10 stores, 2,638 items, 183 days
 - **Evaluation Metric**: RMSE (Root Mean Squared Error)
 
-### Production Model Performance
+---
 
-| Metric | Value |
-|--------|-------|
-| Model | XGBoost |
-| RMSE | 6.4008 |
-| MAE | 1.7480 |
-| Training Samples | 3,798,720 |
-| Test Samples | 817,780 |
-| Features | 33 |
+## Best Model Summary
+
+**Winner: XGBoost** — Selected for production after comprehensive evaluation at full scale (4.8M rows).
+
+### Why XGBoost?
+
+While LSTM showed a 4.5% advantage on a 300K sample dataset, **XGBoost outperformed at production scale by 46%**. The LSTM model failed to converge on the full 4.8M dataset, exhibiting training instability and degraded performance. Tree-based models like XGBoost handle large tabular retail data more effectively due to:
+
+1. **Native handling of missing values** — No imputation needed for lag feature NaNs
+2. **Feature interactions** — Automatically captures store×item×calendar patterns
+3. **Scalability** — Training completed in 92 seconds vs. hours for LSTM
+4. **Interpretability** — Clear feature importance rankings for business insights
+
+### Production Model Metrics
+
+| Metric | Value | Description |
+|--------|-------|-------------|
+| **RMSE** | **6.4008** | Primary evaluation metric |
+| MAE | 1.7480 | Mean absolute error |
+| Bias | -0.4368 | Slight underprediction |
+| Training Samples | 3,798,720 | Oct 2013 - Feb 2014 |
+| Test Samples | 817,780 | March 2014 |
+| Features | 33 | After ablation study |
+| Training Time | 92 seconds | On Intel i7-10875H |
+
+### Model Comparison at Scale
+
+| Model | 300K Sample RMSE | 4.8M Full RMSE | Scalability |
+|-------|------------------|----------------|-------------|
+| **XGBoost** | 6.4860 | **6.4008** | Excellent |
+| LSTM | 6.2552 | ~9.37 (unstable) | Failed |
+
+**Key Decision (DEC-017):** LSTM rejected for production due to convergence failures at scale.
 
 ---
 
@@ -199,37 +224,109 @@ Demand-forecasting-in-retail/
 - ~16GB RAM for full pipeline
 - Kaggle account for data download
 
-### Setup
+### Step 1: Clone and Setup Environment
+
 ```bash
 # Clone repository
 git clone https://github.com/albertodiazdurana/Demand-forecasting-in-retail.git
 cd Demand-forecasting-in-retail
 
-# Create environment
+# Create virtual environment
 python -m venv .venv
+
+# Activate environment
+# On Linux/Mac:
 source .venv/bin/activate
+# On Windows:
+.venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-
-# Download data from Kaggle
-# Place files in data/raw/: train.csv, stores.csv, items.csv, oil.csv, holidays_events.csv
 ```
 
-### Run Production Pipeline
-```bash
-# Option 1: Run notebooks in Jupyter
-jupyter notebook notebooks/FULL_01_data_to_features.ipynb
-jupyter notebook notebooks/FULL_02_train_final_model.ipynb
+### Step 2: Download Kaggle Data
 
-# Option 2: Use existing artifacts (skip training)
-# Artifacts already in /artifacts - ready for deployment
+The raw data must be downloaded from Kaggle (not included in repo due to size).
+
+**Option A: Using Kaggle CLI (Recommended)**
+```bash
+# Install Kaggle CLI if not already installed
+pip install kaggle
+
+# Configure Kaggle credentials (download kaggle.json from your Kaggle account settings)
+# Place kaggle.json in ~/.kaggle/ (Linux/Mac) or %USERPROFILE%\.kaggle\ (Windows)
+
+# Download competition data
+kaggle competitions download -c favorita-grocery-sales-forecasting -p data/raw/
+
+# Extract files
+cd data/raw
+unzip favorita-grocery-sales-forecasting.zip
+cd ../..
 ```
 
-### View MLflow Experiments
+**Option B: Manual Download**
+1. Go to: https://www.kaggle.com/competitions/favorita-grocery-sales-forecasting/data
+2. Sign in and accept competition rules
+3. Download all files and place them in `data/raw/`
+
+### Step 3: Verify Data Files
+
+Ensure these files exist in `data/raw/` before running notebooks:
+
+| File | Size | Required |
+|------|------|----------|
+| `train.csv` | ~4.8 GB | Yes |
+| `stores.csv` | 2 KB | Yes |
+| `items.csv` | 114 KB | Yes |
+| `oil.csv` | 22 KB | Yes |
+| `holidays_events.csv` | 15 KB | Yes |
+| `transactions.csv` | 1.3 MB | Optional |
+| `test.csv` | 136 MB | Optional |
+| `sample_submission.csv` | 48 MB | Optional |
+
 ```bash
+# Verify files exist (Linux/Mac)
+ls -la data/raw/
+
+# Verify files exist (Windows)
+dir data\raw\
+```
+
+### Step 4: Run Production Pipeline
+
+The production pipeline consists of two notebooks that must be run **in order**:
+
+```bash
+# Start Jupyter
+jupyter notebook
+
+# Then run these notebooks in sequence:
+# 1. notebooks/FULL_01_data_to_features.ipynb  (~15 min)
+#    - Reads raw CSVs from data/raw/
+#    - Outputs: data/processed/full_featured_data.pkl (1.3 GB)
+#
+# 2. notebooks/FULL_02_train_final_model.ipynb  (~2 min)
+#    - Reads: data/processed/full_featured_data.pkl
+#    - Outputs: artifacts/xgboost_model_full.pkl and related files
+```
+
+**Alternative: Use Pre-trained Artifacts**
+
+If you only want to run the Streamlit app (skip training):
+- Artifacts are already committed to `/artifacts`
+- Clone the [app repository](https://github.com/albertodiazdurana/Demand-forecasting-in-retail-app) and run directly
+
+### Step 5: View MLflow Experiments (Optional)
+
+```bash
+# Linux/Mac
 ./scripts/start_mlflow_ui.sh
-# Open http://127.0.0.1:5000
+
+# Windows PowerShell
+mlflow ui --backend-store-uri ./mlflow_results
+
+# Open http://127.0.0.1:5000 in browser
 ```
 
 ---
